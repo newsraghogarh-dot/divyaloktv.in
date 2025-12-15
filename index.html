@@ -284,7 +284,7 @@
         
         .program-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 20px;
         }
@@ -330,6 +330,20 @@
             color: rgb(255, 255, 255);
             font-size: 1.2rem;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .program-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: rgb(200, 200, 200);
+        }
+        
+        .program-detail i {
+            color: rgb(255, 255, 255);
+            margin-top: 3px;
+            min-width: 20px;
         }
         
         footer {
@@ -583,31 +597,39 @@
             errorAlert.style.display = 'none';
         }
 
-        // ✅ आगामी कार्यक्रमों को जोड़ना - सही संस्करण
+        // ✅ आगामी कार्यक्रमों को जोड़ना - कथा व्यास के साथ
         const programs = [
             { 
                 title: 'श्रीमद् भागवत कथा', 
                 date: '18 से 24 दिसम्बर 2025', 
                 time: 'दोपहर 1:00 से 4:00 बजे तक', 
-                desc: 'पं. श्री पुरषोत्तम जी पारीक द्वारा 7 दिवसीय कार्यक्रम'
+                location: 'मंगल भवन, तहसील कार्यालय के पास, राघोगढ़, जिला गुना (म.प्र.)',
+                katha_vyas: 'पं. श्री पुरषोत्तम जी पारीक',
+                desc: '7 दिवसीय भागवत कथा महोत्सव'
             },
             { 
                 title: 'श्री राम कथा', 
                 date: '23 से 31 दिसम्बर 2025', 
                 time: 'दोपहर 1:00 से 5:00 बजे तक', 
-                desc: 'सुश्री राधिका किशोरी जी (लाडली)'
+                location: 'केनाल रोड, बजरंग विहार, बोरखेड़ा, कोटा (राज.)',
+                katha_vyas: 'सुश्री राधिका किशोरी जी (लाडली)',
+                desc: '9 दिवसीय राम कथा'
             },
             { 
                 title: 'श्रीमद् भागवत कथा', 
                 date: '8 से 14 जनवरी 2026', 
                 time: 'दोपहर 1:00 से 4:00 बजे तक', 
-                desc: 'पं. ब्रज बिहारी शुक्ल जी'
+                location: 'फोगला आश्रम, श्रीधाम वृंदावन',
+                katha_vyas: 'पं. ब्रज बिहारी शुक्ल जी',
+                desc: 'साप्ताहिक भागवत कथा'
             },
             { 
                 title: 'श्रीमद् भागवत कथा', 
                 date: '20 से 26 जनवरी 2026', 
                 time: 'दोपहर 1:00 से 5:00 बजे तक', 
-                desc: 'सुश्री राधिका किशोरी जी (लाडली)'
+                location: 'भगवानाथ सरकार, पीपलवानी (म.प्र.)',
+                katha_vyas: 'सुश्री राधिका किशोरी जी (लाडली)',
+                desc: 'गणतंत्र दिवस विशेष कार्यक्रम'
             }
         ];
 
@@ -623,9 +645,31 @@
                 </div>
                 <div class="program-info">
                     <h4>${program.title}</h4>
-                    <p><i class="far fa-calendar" style="color:rgb(255, 255, 255);"></i> ${program.date}</p>
-                    <p><i class="far fa-clock" style="color:rgb(255, 255, 255);"></i> ${program.time}</p>
-                    <p style="margin-top:10px; color:rgb(200, 200, 200);"><small>${program.desc}</small></p>
+                    
+                    <div class="program-detail">
+                        <i class="far fa-calendar"></i>
+                        <span><strong>तारीख:</strong> ${program.date}</span>
+                    </div>
+                    
+                    <div class="program-detail">
+                        <i class="far fa-clock"></i>
+                        <span><strong>समय:</strong> ${program.time}</span>
+                    </div>
+                    
+                    <div class="program-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>स्थान:</strong> ${program.location}</span>
+                    </div>
+                    
+                    <div class="program-detail">
+                        <i class="fas fa-user-tie"></i>
+                        <span><strong>कथा व्यास:</strong> ${program.katha_vyas}</span>
+                    </div>
+                    
+                    <div class="program-detail" style="margin-top: 10px;">
+                        <i class="fas fa-info-circle"></i>
+                        <span><strong>विवरण:</strong> ${program.desc}</span>
+                    </div>
                 </div>
             `;
             programContainer.appendChild(card);
