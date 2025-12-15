@@ -528,54 +528,161 @@ body {
 
 <h1>आगामी धार्मिक आयोजन</h1>
 
-<div class="events">
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>धार्मिक आयोजन</title>
 
-    <!-- Event 1 -->
-    <div class="event-card">
-        <h2>श्रीमद् भागवत कथा</h2>
-        <p><span class="label">दिनांक:</span> 18 से 24 दिसम्बर 2025</p>
-        <p><span class="label">समय:</span> दोपहर 1:00 से 4:00 बजे तक</p>
-        <p><span class="label">कथा प्रवक्ता:</span> पं. श्री गुरुदत्त जी शास्त्री</p>
-        <p><span class="label">स्थान:</span> मंगल भवन, तहसील कार्यालय के पास, राघोगढ़, जिला गुना (म.प्र.)</p>
-        <p><span class="label">आयोजक:</span> शासकीय पेंशनर संघ, राघोगढ़</p>
-        <p><span class="label">संपर्क:</span> 9329684285</p>
+<style>
+:root{
+    --primary: rgb(121, 31, 31);
+    --secondary: rgb(255, 236, 210);
+    --accent: rgb(212, 163, 115);
+    --text-dark: rgb(40, 40, 40);
+    --bg: rgb(245, 247, 250);
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+}
+
+.container{
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.section-title{
+    text-align: center;
+    font-size: 32px;
+    color: var(--primary);
+    margin-bottom: 35px;
+}
+
+/* Cards Layout */
+.events{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.event-card{
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 22px 22px 26px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-top: 5px solid var(--accent);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.event-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0,0,0,0.12);
+}
+
+.event-card h2{
+    margin: 0 0 12px;
+    font-size: 22px;
+    color: var(--primary);
+}
+
+.event-card p{
+    margin: 7px 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.label{
+    font-weight: 600;
+    color: rgb(90, 90, 90);
+}
+
+/* Highlight Badge */
+.badge{
+    display: inline-block;
+    background: var(--secondary);
+    color: var(--primary);
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 480px){
+    .section-title{
+        font-size: 26px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 class="section-title">आगामी धार्मिक आयोजन</h1>
+
+    <div class="events">
+
+        <!-- Event 1 -->
+        <div class="event-card">
+            <span class="badge">भागवत कथा</span>
+            <h2>श्रीमद् भागवत कथा</h2>
+            <p><span class="label">दिनांक:</span> 18–24 दिसम्बर 2025</p>
+            <p><span class="label">समय:</span> दोपहर 1:00 – 4:00 बजे</p>
+            <p><span class="label">कथा प्रवक्ता:</span> पं. श्री गुरुदत्त जी शास्त्री</p>
+            <p><span class="label">स्थान:</span> मंगल भवन, तहसील कार्यालय के पास, राघोगढ़, जिला गुना (म.प्र.)</p>
+            <p><span class="label">संपर्क:</span> 9329684285</p>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="event-card">
+            <span class="badge">भागवत कथा</span>
+            <h2>श्रीमद् भागवत कथा</h2>
+            <p><span class="label">दिनांक:</span> 8–14 जनवरी 2026</p>
+            <p><span class="label">समय:</span> दोपहर 1:00 – 4:00 बजे</p>
+            <p><span class="label">कलश यात्रा:</span> 8 जनवरी 2026, प्रातः 10 बजे</p>
+            <p><span class="label">कथा प्रवक्ता:</span> पं. ब्रज बिहारी शुक्ल जी</p>
+            <p><span class="label">स्थान:</span> फोगला आश्रम, श्रीधाम वृंदावन</p>
+        </div>
+
+        <!-- Event 3 -->
+        <div class="event-card">
+            <span class="badge">भागवत कथा</span>
+            <h2>श्रीमद् भागवत कथा</h2>
+            <p><span class="label">दिनांक:</span> 20–26 जनवरी 2026</p>
+            <p><span class="label">समय:</span> दोपहर 1:00 – 5:00 बजे</p>
+            <p><span class="label">कथा प्रवक्ता:</span> सुश्री राधिका किशोरी जी (लाडली)</p>
+            <p><span class="label">स्थान:</span> भगवानाथ सरकार, पीपलवानी (म.प्र.)</p>
+            <p><span class="label">Live:</span> YouTube / Facebook (Divyalok TV)</p>
+        </div>
+
+        <!-- Event 4 -->
+        <div class="event-card">
+            <span class="badge">राम कथा</span>
+            <h2>श्री राम कथा</h2>
+            <p><span class="label">दिनांक:</span> 23–31 दिसम्बर 2025</p>
+            <p><span class="label">समय:</span> दोपहर 1:00 – 5:00 बजे</p>
+            <p><span class="label">कथा प्रवक्ता:</span> सुश्री राधिका किशोरी जी (लाडली)</p>
+            <p><span class="label">स्थान:</span> केनाल रोड, बजरंग विहार, बोरखेड़ा, कोटा (राज.)</p>
+            <p><span class="label">Live:</span> YouTube / Facebook (Divyalok TV)</p>
+        </div>
+
     </div>
-
-    <!-- Event 2 -->
-    <div class="event-card">
-        <h2>श्रीमद् भागवत कथा</h2>
-        <p><span class="label">दिनांक:</span> 8 से 14 जनवरी 2026</p>
-        <p><span class="label">समय:</span> दोपहर 1:00 से 4:00 बजे तक</p>
-        <p><span class="label">कलश यात्रा:</span> 8 जनवरी 2026, प्रातः 10 बजे</p>
-        <p><span class="label">कथा प्रवक्ता:</span> पं. ब्रज बिहारी शुक्ल जी</p>
-        <p><span class="label">स्थान:</span> फोगला आश्रम, श्रीधाम वृंदावन</p>
-        <p><span class="label">संपर्क:</span> 7906402956</p>
-    </div>
-
-    <!-- Event 3 -->
-    <div class="event-card">
-        <h2>श्रीमद् भागवत कथा</h2>
-        <p><span class="label">दिनांक:</span> 20 से 26 जनवरी 2026</p>
-        <p><span class="label">समय:</span> दोपहर 1:00 से 5:00 बजे तक</p>
-        <p><span class="label">कथा प्रवक्ता:</span> सुश्री राधिका किशोरी जी (लाडली)</p>
-        <p><span class="label">स्थान:</span> भगवानाथ सरकार, पीपलवानी (म.प्र.)</p>
-        <p><span class="label">Live:</span> YouTube / Facebook (Divyalok TV)</p>
-    </div>
-
-    <!-- Event 4 -->
-    <div class="event-card">
-        <h2>श्री राम कथा</h2>
-        <p><span class="label">दिनांक:</span> 23 से 31 दिसम्बर 2025</p>
-        <p><span class="label">समय:</span> दोपहर 1:00 से 5:00 बजे तक</p>
-        <p><span class="label">कथा प्रवक्ता:</span> सुश्री राधिका किशोरी जी (लाडली)</p>
-        <p><span class="label">स्थान:</span> केनाल रोड, बजरंग विहार, बोरखेड़ा, कोटा (राज.)</p>
-        <p><span class="label">Live:</span> YouTube / Facebook (Divyalok TV)</p>
-    </div>
-
 </div>
 
 </body>
 </html>
+
 
 
     <footer>
@@ -710,5 +817,6 @@ body {
     </script>
 </body>
 </html>
+
 
 
