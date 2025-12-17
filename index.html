@@ -397,6 +397,156 @@
             border-radius: 6px;
         }
         
+        /* NEW STYLES FOR YOUTUBE VIDEOS AND CATEGORIES */
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: linear-gradient(45deg, 
+                rgba(255, 0, 0, 0.7), 
+                rgba(0, 255, 0, 0.7), 
+                rgba(0, 0, 255, 0.7)
+            );
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .video-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-8px);
+            border-color: rgb(255, 255, 255);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .video-card:hover .play-overlay {
+            opacity: 1;
+        }
+        
+        .play-btn {
+            background: rgba(255, 0, 0, 0.8);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            border: 3px solid white;
+        }
+        
+        .video-info {
+            padding: 20px;
+        }
+        
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: rgb(255, 255, 255);
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: rgb(200, 200, 200);
+            font-size: 0.9rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 900px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            border: 3px solid rgb(255, 255, 255);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
         @media (max-width: 768px) {
             .rgb-title {
                 font-size: 2.5rem;
@@ -408,7 +558,9 @@
             
             .container { padding: 0 15px; }
             .program-grid { grid-template-columns: repeat(2, 1fr); }
+            .videos-grid { grid-template-columns: repeat(2, 1fr); }
             .social-icons a { margin: 0 12px; font-size: 1.7rem; }
+            .category-btn { padding: 8px 15px; font-size: 0.9rem; }
         }
         
         @media (max-width: 480px) {
@@ -420,7 +572,8 @@
                 font-size: 1rem;
             }
             
-            .program-grid { grid-template-columns: 1fr; }
+            .program-grid, .videos-grid { grid-template-columns: 1fr; }
+            .category-filter { flex-direction: column; align-items: center; }
         }
         
         .loading {
@@ -450,13 +603,13 @@
 <body>
     <header>
         <div class="logo-container">
-            <!-- RGB एनिमेटेड टेक्स्ट ऊपर हेडर में -->
             <h1 class="rgb-title">दिव्यलोक टीवी</h1>
             <p class="tagline">शाश्वत ज्ञान, सनातन संस्कृति का सजीव प्रसारण</p>
         </div>
     </header>
 
     <div class="container">
+        <!-- LIVE STREAM SECTION -->
         <section class="section">
             <h2><i class="fas fa-tv"></i> लाइव प्रसारण</h2>
             <p style="margin-bottom:20px; text-align:center; color:#ffffff; font-size:1.1rem;">
@@ -476,6 +629,40 @@
             <div class="alert" id="errorAlert"></div>
         </section>
 
+        <!-- KATHA VYAS YOUTUBE VIDEOS SECTION -->
+        <section class="section">
+            <h2><i class="fas fa-user-tie"></i> कथा व्यास वर्गीकरण</h2>
+            <p style="margin-bottom:25px; color:#ffffff; font-size:1.1rem;">
+                विभिन्न कथा व्यासों के प्रवचन वीडियो देखें। नीचे वर्ग चुनें:
+            </p>
+            
+            <div class="category-filter">
+                <div class="category-btn active" onclick="filterVideos('all')">सभी वीडियो</div>
+                <div class="category-btn" onclick="filterVideos('ramayan')">श्री राम कथा</div>
+                <div class="category-btn" onclick="filterVideos('bhagwat')">श्रीमद् भागवत कथा</div>
+                <div class="category-btn" onclick="filterVideos('hanuman')">हनुमान कथा</div>
+                <div class="category-btn" onclick="filterVideos('shiv')">शिव पुराण</div>
+                <div class="category-btn" onclick="filterVideos('sant')">संत वाणी</div>
+            </div>
+
+            <!-- YouTube Videos Grid -->
+            <div class="videos-grid" id="videosContainer">
+                <!-- Videos will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- UPCOMING PROGRAMS SECTION -->
+        <section class="section">
+            <h2><i class="fas fa-calendar-alt"></i> आगामी कार्यक्रम</h2>
+            <p style="margin-bottom:25px; color:#ffffff; font-size:1.1rem;">
+                जल्द ही आने वाले विशेष धार्मिक कार्यक्रमों और प्रवचन श्रृंखलाओं की जानकारी।
+            </p>
+            <div class="program-grid" id="programContainer">
+                <!-- Programs will be loaded here -->
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
         <section class="section">
             <h2><i class="fas fa-map-marker-alt"></i> हमसे संपर्क करें</h2>
             <div class="contact-grid">
@@ -493,18 +680,14 @@
                 </div>
             </div>
         </section>
+    </div>
 
-        <section class="section">
-            <h2><i class="fas fa-calendar-alt"></i> आगामी कार्यक्रम</h2>
-            <p style="margin-bottom:25px; color:#ffffff; font-size:1.1rem;">
-                जल्द ही आने वाले विशेष धार्मिक कार्यक्रमों और प्रवचन श्रृंखलाओं की जानकारी।
-            </p>
-            <div class="program-grid" id="programContainer">
-                <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i> आगामी कार्यक्रम जल्द ही अपडेट किए जाएंगे...
-                </div>
-            </div>
-        </section>
+    <!-- YouTube Video Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVideoModal()">&times;</span>
+            <div id="youtubePlayer" style="width: 100%; aspect-ratio: 16/9;"></div>
+        </div>
     </div>
 
     <footer>
@@ -526,6 +709,7 @@
     </footer>
 
     <script>
+        // Live Stream Functions
         const videoPlayer = document.getElementById('videoPlayer');
         const playerStatus = document.getElementById('playerStatus');
         const errorAlert = document.getElementById('errorAlert');
@@ -597,12 +781,65 @@
             errorAlert.style.display = 'none';
         }
 
+        // YouTube Videos Data
+        const youtubeVideos = [
+            {
+                id: 'TqrOHgJzc4E',
+                title: 'देवी भागवत कथा - भाग 1:',
+                category: 'bhagwat',
+                katha_vyas: 'स्वामी हृदयानंद गिरी जी महाराज',
+                duration: '3:28',
+                thumbnail: 'https://img.youtube.com/vi/TqrOHgJzc4E/maxresdefault.jpg'
+            },
+            {
+                id: 'nMNsbe4xAzI&t',
+                title: 'श्रीमद् भागवत कथा - भाग 1',
+                category: 'bhagwat',
+                katha_vyas: 'पंडित शिवदयाल जी महाराज',
+                duration: '3:18',
+                thumbnail: 'https://img.youtube.com/nMNsbe4xAzI&t/maxresdefault.jpg'
+            },
+            {
+                id: '3sLfZq5GAWc',
+                title: 'हनुमान चालीसा विशेष कथा',
+                category: 'hanuman',
+                katha_vyas: 'रामेश्वर दास जी',
+                duration: '38:45',
+                thumbnail: 'https://img.youtube.com/vi/3sLfZq5GAWc/maxresdefault.jpg'
+            },
+            {
+                id: 'mVwLvz-7D8Y',
+                title: 'शिव पुराण - सम्पूर्ण कथा',
+                category: 'shiv',
+                katha_vyas: 'श्री शिवानन्द जी',
+                duration: '1:20:15',
+                thumbnail: 'https://img.youtube.com/vi/mVwLvz-7D8Y/maxresdefault.jpg'
+            },
+            {
+                id: 'dQw4w9WgXcQ',
+                title: 'संत कबीर वाणी - विशेष प्रवचन',
+                category: 'sant',
+                katha_vyas: 'संत रामपाल जी',
+                duration: '55:30',
+                thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg'
+            },
+            {
+                id: 'ABC123DEF456',
+                title: 'श्री राम कथा - भाग 2: अयोध्या काण्ड',
+                category: 'ramayan',
+                katha_vyas: 'मोरारी बापू',
+                duration: '48:15',
+                thumbnail: 'https://img.youtube.com/vi/7lIq5w7cCQ0/maxresdefault.jpg'
+            }
+        ];
+
+        // Programs Data
         const programs = [
             { 
                 title: 'श्रीमद् भागवत कथा', 
                 date: '18 से 24 दिसम्बर 2025', 
                 time: 'दोपहर 1:00 से 4:00 बजे तक', 
-                location: 'मंगल भवन, तहसील कार्यालय के पास, राघोगढ़, जिला गुना (म.प्र.)',
+                location: 'मंगल भवन, तहसिल कार्यालय के पास, राघोगढ़, जिला गुना (म.प्र.)',
                 katha_vyas: 'पं. श्री पुरषोत्तम जी पारीक',
                 desc: '7 दिवसीय भागवत कथा महोत्सव'
             },
@@ -632,51 +869,144 @@
             }
         ];
 
-        const programContainer = document.getElementById('programContainer');
-        programContainer.innerHTML = '';
+        // Load YouTube Videos
+        function loadYouTubeVideos() {
+            const videosContainer = document.getElementById('videosContainer');
+            videosContainer.innerHTML = '';
+            
+            youtubeVideos.forEach(video => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                videoCard.setAttribute('data-category', video.category);
+                
+                videoCard.innerHTML = `
+                    <div class="video-thumbnail">
+                        <img src="${video.thumbnail}" alt="${video.title}" onerror="this.src='https://via.placeholder.com/320x180?text=Thumbnail+Not+Found'">
+                        <div class="play-overlay">
+                            <div class="play-btn" onclick="playYouTubeVideo('${video.id}')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">${video.title}</div>
+                        <div class="video-meta">
+                            <span>${video.katha_vyas}</span>
+                            <span>${video.duration}</span>
+                        </div>
+                    </div>
+                `;
+                
+                videosContainer.appendChild(videoCard);
+            });
+        }
 
-        programs.forEach(program => {
-            const card = document.createElement('div');
-            card.className = 'program-card';
-            card.innerHTML = `
-                <div class="program-img">
-                    <i class="fas fa-calendar-day" style="font-size:2.8rem;"></i>
-                </div>
-                <div class="program-info">
-                    <h4>${program.title}</h4>
-                    
-                    <div class="program-detail">
-                        <i class="far fa-calendar"></i>
-                        <span><strong>तारीख:</strong> ${program.date}</span>
-                    </div>
-                    
-                    <div class="program-detail">
-                        <i class="far fa-clock"></i>
-                        <span><strong>समय:</strong> ${program.time}</span>
-                    </div>
-                    
-                    <div class="program-detail">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span><strong>स्थान:</strong> ${program.location}</span>
-                    </div>
-                    
-                    <div class="program-detail">
-                        <i class="fas fa-user-tie"></i>
-                        <span><strong>कथा व्यास:</strong> ${program.katha_vyas}</span>
-                    </div>
-                    
-                    <div class="program-detail" style="margin-top: 10px;">
-                        <i class="fas fa-info-circle"></i>
-                        <span><strong>विवरण:</strong> ${program.desc}</span>
-                    </div>
-                </div>
+        // Filter Videos by Category
+        function filterVideos(category) {
+            const videos = document.querySelectorAll('.video-card');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            
+            // Update active button
+            categoryBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter videos
+            videos.forEach(video => {
+                if (category === 'all') {
+                    video.style.display = 'block';
+                } else if (video.getAttribute('data-category') === category) {
+                    video.style.display = 'block';
+                } else {
+                    video.style.display = 'none';
+                }
+            });
+        }
+
+        // YouTube Video Modal Functions
+        function playYouTubeVideo(videoId) {
+            const modal = document.getElementById('videoModal');
+            const youtubePlayer = document.getElementById('youtubePlayer');
+            
+            youtubePlayer.innerHTML = `
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
             `;
-            programContainer.appendChild(card);
-        });
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
 
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const youtubePlayer = document.getElementById('youtubePlayer');
+            
+            youtubePlayer.innerHTML = '';
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Load Programs
+        function loadPrograms() {
+            const programContainer = document.getElementById('programContainer');
+            programContainer.innerHTML = '';
+
+            programs.forEach(program => {
+                const card = document.createElement('div');
+                card.className = 'program-card';
+                card.innerHTML = `
+                    <div class="program-img">
+                        <i class="fas fa-calendar-day" style="font-size:2.8rem;"></i>
+                    </div>
+                    <div class="program-info">
+                        <h4>${program.title}</h4>
+                        
+                        <div class="program-detail">
+                            <i class="far fa-calendar"></i>
+                            <span><strong>तारीख:</strong> ${program.date}</span>
+                        </div>
+                        
+                        <div class="program-detail">
+                            <i class="far fa-clock"></i>
+                            <span><strong>समय:</strong> ${program.time}</span>
+                        </div>
+                        
+                        <div class="program-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span><strong>स्थान:</strong> ${program.location}</span>
+                        </div>
+                        
+                        <div class="program-detail">
+                            <i class="fas fa-user-tie"></i>
+                            <span><strong>कथा व्यास:</strong> ${program.katha_vyas}</span>
+                        </div>
+                        
+                        <div class="program-detail" style="margin-top: 10px;">
+                            <i class="fas fa-info-circle"></i>
+                            <span><strong>विवरण:</strong> ${program.desc}</span>
+                        </div>
+                    </div>
+                `;
+                programContainer.appendChild(card);
+            });
+        }
+
+        // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
             playerStatus.innerHTML = '👉 "लाइव चलाएं" बटन दबाकर प्रसारण शुरू करें';
             playerStatus.style.color = 'rgb(255, 255, 255)';
+            
+            // Load YouTube videos and programs
+            loadYouTubeVideos();
+            loadPrograms();
             
             // RGB टाइटल एनिमेशन
             const title = document.querySelector('.rgb-title');
@@ -684,10 +1014,15 @@
                 const hue = Math.floor(Math.random() * 360);
                 title.style.filter = `hue-rotate(${hue}deg)`;
             }, 1000);
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('videoModal');
+                if (event.target === modal) {
+                    closeVideoModal();
+                }
+            });
         });
     </script>
 </body>
 </html>
-
-
-
