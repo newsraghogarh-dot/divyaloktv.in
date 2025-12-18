@@ -112,6 +112,20 @@
             z-index: -1;
         }
 
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .tv-logo {
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+
         .main-title {
             font-family: 'Marcellus', serif;
             font-size: 4.5rem;
@@ -128,20 +142,7 @@
             position: relative;
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
             letter-spacing: 2px;
-        }
-
-        .main-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 25%;
-            right: 25%;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                var(--primary-gold), 
-                transparent);
-            border-radius: 3px;
+            display: none; /* Hide text title since we have logo */
         }
 
         .tagline {
@@ -153,21 +154,6 @@
             margin-top: 0.5rem;
             opacity: 0.9;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .divine-badge {
-            position: absolute;
-            top: -15px;
-            right: 5%;
-            background: linear-gradient(135deg, var(--royal-purple), var(--navy-blue));
-            color: var(--primary-gold);
-            padding: 8px 25px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transform: rotate(5deg);
-            border: 2px solid var(--primary-gold);
         }
 
         /* Main Container */
@@ -272,19 +258,9 @@
             position: relative;
         }
 
+        /* Removed the LIVE badge */
         .premium-player::before {
-            content: 'LIVE';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, var(--saffron), #E65100);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            z-index: 10;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            display: none;
         }
 
         #videoPlayer {
@@ -304,53 +280,9 @@
             letter-spacing: 0.5px;
         }
 
+        /* Removed premium-controls section */
         .premium-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .luxury-button {
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
-            color: var(--deep-blue);
-            border: none;
-            padding: 1.2rem 2.5rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            min-width: 200px;
-            justify-content: center;
-            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .luxury-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .luxury-button:hover::before {
-            left: 100%;
-        }
-
-        .luxury-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.5);
-            background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
+            display: none;
         }
 
         /* Navigation Guide */
@@ -924,13 +856,17 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .main-title { font-size: 3.5rem; }
+            .tv-logo {
+                max-width: 400px;
+            }
             .section-title { font-size: 2rem; }
             .luxury-card { padding: 2.5rem; }
         }
 
         @media (max-width: 768px) {
-            .main-title { font-size: 2.8rem; }
+            .tv-logo {
+                max-width: 300px;
+            }
             .tagline { font-size: 1.1rem; }
             .section-title { font-size: 1.8rem; }
             .luxury-card { padding: 2rem; }
@@ -941,11 +877,12 @@
                 grid-template-columns: 1fr;
             }
             .premium-controls { flex-direction: column; }
-            .luxury-button { width: 100%; }
         }
 
         @media (max-width: 480px) {
-            .main-title { font-size: 2.2rem; }
+            .tv-logo {
+                max-width: 250px;
+            }
             .luxury-container { padding: 0 1rem; }
             .luxury-card { padding: 1.5rem; }
             .section-header { flex-direction: column; text-align: center; gap: 1rem; }
@@ -964,9 +901,11 @@
     <header class="luxury-header">
         <div class="divine-border"></div>
         <div class="header-content">
-            <div class="divine-badge">ज्ञान • भक्ति • मुक्ति</div>
-            <h1 class="main-title">दिव्यलोक टीवी</h1>
-            <p class="tagline">शाश्वत ज्ञान, सनातन संस्कृति का सजीव प्रसारण</p>
+            <div class="logo-container">
+                <img src="https://i.ibb.co/99Rgxtc3/divyalok-tv-logo.jpg" alt="दिव्यलोक टीवी" class="tv-logo">
+                <h1 class="main-title">दिव्यलोक टीवी</h1>
+            </div>
+            <p class="tagline">शसंस्कृति, संस्कार और सत्य का संगम</p>
         </div>
     </header>
 
@@ -983,29 +922,14 @@
             
             <p style="text-align:center; color:var(--light-gold); margin-bottom:2rem; font-size:1.1rem; line-height:1.6;">
                 <i class="fas fa-star" style="color:var(--primary-gold);"></i> 
-                दिव्यलोक टीवी का सीधा प्रसारण देखें। 'लाइव चलाएं' बटन पर क्लिक करें और आध्यात्मिक ज्ञान प्राप्त करें।
+                दिव्यलोक टीवी का सीधा प्रसारण देखें। पेज लोड होते ही प्रसारण स्वचालित रूप से शुरू हो जाएगा।
             </p>
             
             <div class="premium-player">
-                <video id="videoPlayer" controls></video>
+                <video id="videoPlayer" controls autoplay playsinline></video>
                 <div class="player-status" id="playerStatus">
-                    ⚡ लाइव स्ट्रीम शुरू करने के लिए "लाइव चलाएं" बटन दबाएँ
+                    📡 लाइव प्रसारण लोड हो रहा है...
                 </div>
-            </div>
-            
-            <div class="premium-controls">
-                <button class="luxury-button" onclick="playLiveStream()">
-                    <i class="fas fa-play-circle"></i>
-                    लाइव चलाएं
-                </button>
-                <button class="luxury-button" onclick="pauseStream()">
-                    <i class="fas fa-pause-circle"></i>
-                    रोकें
-                </button>
-                <button class="luxury-button" onclick="toggleMute()">
-                    <i class="fas fa-volume-up"></i>
-                    आवाज़ बंद/चालू
-                </button>
             </div>
             
             <div class="alert" id="errorAlert"></div>
@@ -1204,7 +1128,7 @@
             <p class="copyright">
                 © 2025 दिव्यलोक टीवी। सर्वाधिकार सुरक्षित।<br>
                 <span style="font-size:0.9rem; opacity:0.7;">
-                    यह चैनल आध्यात्मिक ज्ञान के प्रसारण के लिए समर्पित है।
+                    
                 </span>
             </p>
         </div>
@@ -1219,14 +1143,15 @@
     </div>
 
     <script>
-        // Live Stream Functions
+        // Live Stream Functions - Auto play on page load
         const videoPlayer = document.getElementById('videoPlayer');
         const playerStatus = document.getElementById('playerStatus');
         const errorAlert = document.getElementById('errorAlert');
         let hls = null;
         const currentStreamUrl = 'http://divyaloktv.co.in/divyaloktvhls/divyaloktvchannel.m3u8';
 
-        function playLiveStream() {
+        // Auto-play function
+        function autoPlayLiveStream() {
             const streamToPlay = currentStreamUrl;
 
             if (!streamToPlay) {
@@ -1240,19 +1165,33 @@
 
             if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
                 videoPlayer.src = streamToPlay;
-                videoPlayer.play();
-                playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
-                playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
-                hideError();
+                videoPlayer.play()
+                    .then(() => {
+                        playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
+                        playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
+                        hideError();
+                    })
+                    .catch(error => {
+                        showError('स्वचालित प्रसारण शुरू करने में त्रुटि। कृपया वीडियो प्लेयर पर प्ले बटन दबाएँ।');
+                        playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए प्ले बटन दबाएँ';
+                        playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+                    });
             } else if (Hls.isSupported()) {
                 hls = new Hls();
                 hls.loadSource(streamToPlay);
                 hls.attachMedia(videoPlayer);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    videoPlayer.play();
-                    playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
-                    playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
-                    hideError();
+                    videoPlayer.play()
+                        .then(() => {
+                            playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
+                            playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
+                            hideError();
+                        })
+                        .catch(error => {
+                            showError('स्वचालित प्रसारण शुरू करने में त्रुटि। कृपया वीडियो प्लेयर पर प्ले बटन दबाएँ।');
+                            playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए प्ले बटन दबाएँ';
+                            playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+                        });
                 });
                 hls.on(Hls.Events.ERROR, function(event, data) {
                     showError('स्ट्रीम लोड करने में त्रुटि। कृपया बाद में प्रयास करें।');
@@ -1262,19 +1201,6 @@
             } else {
                 showError('आपका ब्राउज़र लाइव स्ट्रीमिंग को सपोर्ट नहीं करता।');
             }
-        }
-
-        function pauseStream() {
-            videoPlayer.pause();
-            playerStatus.innerHTML = '⏸️ प्रसारण रोका गया।';
-            playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
-        }
-
-        function toggleMute() {
-            videoPlayer.muted = !videoPlayer.muted;
-            playerStatus.innerHTML = videoPlayer.muted ? 
-                '🔇 आवाज़ बंद' : 
-                '🔊 आवाज़ चालू';
         }
 
         function showError(message) {
@@ -1796,9 +1722,14 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            playerStatus.innerHTML = '👉 "लाइव चलाएं" बटन दबाकर प्रसारण शुरू करें';
+            playerStatus.innerHTML = '📡 लाइव प्रसारण लोड हो रहा है...';
             loadPrograms();
             updateSteps();
+            
+            // Auto-play live stream on page load
+            setTimeout(() => {
+                autoPlayLiveStream();
+            }, 1000);
             
             // Close modal when clicking outside
             window.addEventListener('click', function(event) {
