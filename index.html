@@ -582,6 +582,10 @@
             justify-content: center;
             font-size: 1.8rem;
             color: white;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         
         .guruji-info {
@@ -1171,7 +1175,7 @@
             errorAlert.style.display = 'none';
         }
 
-        // COMPLETE KATHA DATABASE WITH CORRECTED DATA
+        // COMPLETE KATHA DATABASE WITH ALL PHOTOS
         const kathaDatabase = {
             bhagwat: {
                 name: "देवी भागवत कथा",
@@ -1181,6 +1185,7 @@
                         id: "hridayanand",
                         name: "स्वामी हृदयानंद गिरी जी महाराज",
                         avatar: "ॐ",
+                        photo: "https://i.ibb.co/sv5zT955/Whats-App-Image-2025-01-15-at-18-31-55-1.jpg",
                         locations: [
                             {
                                 id: "bangkok_2025",
@@ -1226,6 +1231,7 @@
                         id: "shashi_shekhar",
                         name: "शशि शेखर जी महाराज",
                         avatar: "ॐ",
+                        photo: "",
                         locations: [
                             {
                                 id: "noida_delhi_2023",
@@ -1265,6 +1271,7 @@
                         id: "shivdayal",
                         name: "पंडित शिवदयाल जी महाराज",
                         avatar: "ॐ",
+                        photo: "https://i.ibb.co/gLDPjY1F/Whats-App-Image-2025-01-15-at-18-31-55-2.jpg",
                         locations: [
                             {
                                 id: "badrinath_2025",
@@ -1286,6 +1293,7 @@
                         id: "radhika_kishori",
                         name: "सुश्री राधिका किशोरी जी (लाडली)",
                         avatar: "ॐ",
+                        photo: "https://i.ibb.co/GQ4n9Rrb/Whats-App-Image-2025-01-15-at-18-31-55-3.jpg",
                         locations: [
                             {
                                 id: "palghar_radhika_2025",
@@ -1307,6 +1315,7 @@
                         id: "purushottam_parik",
                         name: "आचार्य श्री पुरुषोत्तम पारीक जी",
                         avatar: "ॐ",
+                        photo: "https://i.ibb.co/Z1h2KKfR/Whats-App-Image-2025-01-15-at-18-31-55.jpg",
                         locations: [
                             {
                                 id: "raghogarh_guna_2025",
@@ -1328,6 +1337,7 @@
                         id: "rameshwar",
                         name: "पंडित रामेश्वर जी महाराज",
                         avatar: "ॐ",
+                        photo: "",
                         locations: [
                             {
                                 id: "varanasi_2024",
@@ -1350,6 +1360,7 @@
                         id: "santoshi",
                         name: "संतोषी माता जी",
                         avatar: "ॐ",
+                        photo: "",
                         locations: [
                             {
                                 id: "haridwar_2023",
@@ -1488,10 +1499,20 @@
                 const totalVideos = guruji.locations.reduce((total, loc) => total + loc.videos.length, 0);
                 const totalLocations = guruji.locations.length;
                 
-                gurujiCard.innerHTML = `
-                    <div class="guruji-avatar">
+                // गुरुजी का अवतार HTML
+                let avatarHTML;
+                if (guruji.photo) {
+                    // यदि फोटो URL है तो उसे दिखाएं
+                    avatarHTML = `<div class="guruji-avatar" style="background-image: url('${guruji.photo}');"></div>`;
+                } else {
+                    // यदि फोटो नहीं है तो ॐ आइकन दिखाएं
+                    avatarHTML = `<div class="guruji-avatar">
                         <div class="om-icon" style="font-size: 1.5rem;">${guruji.avatar}</div>
-                    </div>
+                    </div>`;
+                }
+                
+                gurujiCard.innerHTML = `
+                    ${avatarHTML}
                     <div class="guruji-info">
                         <div class="guruji-name">${guruji.name}</div>
                         <div class="guruji-stats">
