@@ -142,7 +142,7 @@
             position: relative;
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
             letter-spacing: 2px;
-            display: none; /* Hide text title since we have logo */
+            display: none;
         }
 
         .tagline {
@@ -258,11 +258,6 @@
             position: relative;
         }
 
-        /* Removed the LIVE badge */
-        .premium-player::before {
-            display: none;
-        }
-
         #videoPlayer {
             width: 100%;
             aspect-ratio: 16/9;
@@ -280,9 +275,30 @@
             letter-spacing: 0.5px;
         }
 
-        /* Removed premium-controls section */
-        .premium-controls {
-            display: none;
+        /* Android Play Button */
+        #androidPlayBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
+            color: var(--deep-blue);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #androidPlayBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.6);
+        }
+
+        #androidPlayBtn:active {
+            transform: scale(0.98);
         }
 
         /* Navigation Guide */
@@ -854,6 +870,31 @@
             transform: rotate(90deg);
         }
 
+        /* Error Alert */
+        #errorAlert {
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            background: linear-gradient(90deg,#8B0000,#B22222);
+            padding: 1rem;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .error-message button {
+            margin-left: 10px;
+            padding: 5px 15px;
+            background: white;
+            color: #B22222;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .tv-logo {
@@ -876,7 +917,10 @@
             .category-grid, .guruji-grid, .location-grid, .video-grid, .program-grid, .contact-grid {
                 grid-template-columns: 1fr;
             }
-            .premium-controls { flex-direction: column; }
+            #androidPlayBtn {
+                padding: 12px 24px;
+                font-size: 1.1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -886,6 +930,11 @@
             .luxury-container { padding: 0 1rem; }
             .luxury-card { padding: 1.5rem; }
             .section-header { flex-direction: column; text-align: center; gap: 1rem; }
+            #androidPlayBtn {
+                padding: 10px 20px;
+                font-size: 1rem;
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -922,13 +971,13 @@
             
             <p style="text-align:center; color:var(--light-gold); margin-bottom:2rem; font-size:1.1rem; line-height:1.6;">
                 <i class="fas fa-star" style="color:var(--primary-gold);"></i> 
-                दिव्यलोक टीवी का सीधा प्रसारण देखें। पेज लोड होते ही प्रसारण स्वचालित रूप से शुरू हो जाएगा।
+                दिव्यलोक टीवी का सीधा प्रसारण देखें। Android ऐप में बेहतर अनुभव के लिए प्ले बटन दबाएँ।
             </p>
             
             <div class="premium-player">
-                <video id="videoPlayer" controls autoplay playsinline></video>
+                <video id="videoPlayer" controls playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="false"></video>
                 <div class="player-status" id="playerStatus">
-                    📡 लाइव प्रसारण लोड हो रहा है...
+                    📡 Android ऐप के लिए तैयार हो रहा है...
                 </div>
             </div>
             
@@ -1128,7 +1177,7 @@
             <p class="copyright">
                 © 2025 दिव्यलोक टीवी। सर्वाधिकार सुरक्षित।<br>
                 <span style="font-size:0.9rem; opacity:0.7;">
-                    
+                    Android ऐप के लिए अनुकूलित
                 </span>
             </p>
         </div>
@@ -1143,78 +1192,270 @@
     </div>
 
     <script>
-        // Live Stream Functions - Auto play on page load
+        // ============================
+        // IMPROVED LIVE STREAM PLAYER
+        // Android APK Compatible Version
+        // ============================
+
         const videoPlayer = document.getElementById('videoPlayer');
         const playerStatus = document.getElementById('playerStatus');
         const errorAlert = document.getElementById('errorAlert');
+
+        // Primary and Backup Stream URLs
+        const PRIMARY_STREAM = 'http://divyaloktv.co.in/divyaloktvhls/divyaloktvchannel.m3u8';
+        const BACKUP_STREAM = 'https://example.com/backup-stream.m3u8'; // अपना बैकअप URL यहां डालें
+
         let hls = null;
-        const currentStreamUrl = 'http://divyaloktv.co.in/divyaloktvhls/divyaloktvchannel.m3u8';
+        let currentStreamIndex = 0;
+        const streamUrls = [PRIMARY_STREAM, BACKUP_STREAM];
 
-        // Auto-play function
-        function autoPlayLiveStream() {
-            const streamToPlay = currentStreamUrl;
+        // Detect Device Type
+        function detectDevice() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const isAndroid = /android/i.test(userAgent);
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            
+            return {
+                isAndroid,
+                isIOS,
+                isMobile,
+                userAgent
+            };
+        }
 
-            if (!streamToPlay) {
-                showError('स्ट्रीम URL उपलब्ध नहीं है।');
-                return;
+        // Initialize Player for Android APK
+        function initPlayerForAndroid() {
+            const device = detectDevice();
+            
+            // Android-specific attributes
+            if (device.isAndroid) {
+                console.log('Android डिवाइस डिटेक्ट किया गया - WebView सेटअप');
+                
+                // Android WebView compatibility attributes
+                videoPlayer.setAttribute('playsinline', 'true');
+                videoPlayer.setAttribute('webkit-playsinline', 'true');
+                videoPlayer.setAttribute('x5-playsinline', 'true');
+                videoPlayer.setAttribute('x5-video-player-type', 'h5');
+                videoPlayer.setAttribute('x5-video-player-fullscreen', 'false');
+                videoPlayer.setAttribute('controlsList', 'nodownload noremoteplayback');
+                
+                // Prevent default fullscreen behavior
+                videoPlayer.addEventListener('webkitbeginfullscreen', function() {
+                    console.log('Fullscreen started');
+                });
+                
+                videoPlayer.addEventListener('webkitendfullscreen', function() {
+                    console.log('Fullscreen ended');
+                });
             }
+        }
 
+        // Setup Stream with HLS.js or native HLS
+        function setupStream(streamUrl) {
+            console.log('Setting up stream:', streamUrl);
+            
+            // Destroy existing HLS instance
             if (hls) {
                 hls.destroy();
+                hls = null;
             }
+            
+            // Check for native HLS support (iOS Safari and some Android browsers)
+            if (videoPlayer.canPlayType('application/vnd.apple.mpegurl') || 
+                videoPlayer.canPlayType('application/x-mpegURL')) {
+                
+                console.log('Using native HLS support');
+                videoPlayer.src = streamUrl;
+                playerStatus.innerHTML = '✅ स्ट्रीम तैयार है - प्ले बटन दबाएँ';
+                playerStatus.style.background = 'linear-gradient(90deg, #1E90FF, #4169E1)';
+                
+            } else if (window.Hls && Hls.isSupported()) {
+                // Use Hls.js for HLS streaming
+                console.log('Using Hls.js for streaming');
+                
+                hls = new Hls({
+                    enableWorker: false, // Android WebView में worker समस्या दे सकता है
+                    lowLatencyMode: true,
+                    maxBufferLength: 30,
+                    maxMaxBufferLength: 60,
+                    liveSyncDurationCount: 3,
+                    liveMaxLatencyDurationCount: 10,
+                    manifestLoadingTimeOut: 10000,
+                    manifestLoadingMaxRetry: 3,
+                    levelLoadingTimeOut: 10000,
+                    levelLoadingMaxRetry: 3,
+                    fragLoadingTimeOut: 10000,
+                    fragLoadingMaxRetry: 3
+                });
+                
+                hls.loadSource(streamUrl);
+                hls.attachMedia(videoPlayer);
+                
+                // Event handlers
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    console.log('Manifest parsed successfully');
+                    playerStatus.innerHTML = '✅ स्ट्रीम तैयार है - प्ले बटन दबाएँ';
+                    playerStatus.style.background = 'linear-gradient(90deg, #1E90FF, #4169E1)';
+                    hideError();
+                });
+                
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    console.error('HLS Error:', data);
+                    
+                    if (data.fatal) {
+                        switch(data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.log('Network error, trying next stream');
+                                showError('नेटवर्क त्रुटि। बैकअप स्ट्रीम आज़मा रहा है...');
+                                tryNextStream();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.log('Media error, attempting recovery');
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                console.log('Fatal error, cannot recover');
+                                showError('स्ट्रीम त्रुटि। कृपया पेज रीलोड करें।');
+                                break;
+                        }
+                    }
+                });
+                
+                hls.on(Hls.Events.FRAG_LOADED, function(event, data) {
+                    console.log('Fragment loaded successfully');
+                });
+                
+            } else {
+                console.error('HLS not supported');
+                showError('आपका डिवाइस लाइव स्ट्रीमिंग को सपोर्ट नहीं करता।');
+                playerStatus.innerHTML = '❌ ब्राउज़र सपोर्ट नहीं करता';
+                playerStatus.style.background = 'linear-gradient(90deg, #8B0000, #B22222)';
+            }
+        }
 
-            if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-                videoPlayer.src = streamToPlay;
-                videoPlayer.play()
-                    .then(() => {
+        // Try next available stream
+        function tryNextStream() {
+            currentStreamIndex++;
+            
+            if (currentStreamIndex < streamUrls.length) {
+                playerStatus.innerHTML = `🔄 बैकअप स्ट्रीम #${currentStreamIndex+1} आज़मा रहा है...`;
+                playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+                
+                // Try next stream after short delay
+                setTimeout(() => {
+                    setupStream(streamUrls[currentStreamIndex]);
+                }, 1000);
+            } else {
+                showError('सभी स्ट्रीम असफल। कृपया बाद में प्रयास करें।');
+                playerStatus.innerHTML = '❌ सभी स्ट्रीम असफल';
+                playerStatus.style.background = 'linear-gradient(90deg, #8B0000, #B22222)';
+                
+                // Show manual refresh button
+                const refreshBtn = document.createElement('button');
+                refreshBtn.innerHTML = '🔄 पेज रीफ्रेश करें';
+                refreshBtn.onclick = function() { location.reload(); };
+                refreshBtn.style.cssText = `
+                    margin-top: 10px;
+                    padding: 8px 16px;
+                    background: var(--primary-gold);
+                    color: var(--deep-blue);
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-weight: bold;
+                `;
+                
+                errorAlert.appendChild(refreshBtn);
+            }
+        }
+
+        // Start Live Stream (called when user clicks play button)
+        function startLiveStream() {
+            const streamToPlay = streamUrls[currentStreamIndex];
+            
+            playerStatus.innerHTML = '📡 स्ट्रीम कनेक्ट कर रहा है...';
+            playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+            
+            setupStream(streamToPlay);
+            
+            // Try to auto-play after setup
+            setTimeout(() => {
+                const playPromise = videoPlayer.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Autoplay started successfully');
                         playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
                         playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
+                        
+                        // Hide play button
+                        const playBtn = document.getElementById('androidPlayBtn');
+                        if (playBtn) playBtn.style.display = 'none';
+                        
                         hideError();
-                    })
-                    .catch(error => {
-                        showError('स्वचालित प्रसारण शुरू करने में त्रुटि। कृपया वीडियो प्लेयर पर प्ले बटन दबाएँ।');
-                        playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए प्ले बटन दबाएँ';
-                        playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+                    }).catch(error => {
+                        console.log('Autoplay prevented:', error);
+                        playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए नीचे प्ले बटन दबाएँ';
+                        playerStatus.style.background = 'linear-gradient(90deg, #1A237E, #4A148C)';
+                        
+                        // Show play button for manual start
+                        addAndroidPlayButton();
                     });
-            } else if (Hls.isSupported()) {
-                hls = new Hls();
-                hls.loadSource(streamToPlay);
-                hls.attachMedia(videoPlayer);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    videoPlayer.play()
-                        .then(() => {
-                            playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
-                            playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
-                            hideError();
-                        })
-                        .catch(error => {
-                            showError('स्वचालित प्रसारण शुरू करने में त्रुटि। कृपया वीडियो प्लेयर पर प्ले बटन दबाएँ।');
-                            playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए प्ले बटन दबाएँ';
-                            playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
-                        });
-                });
-                hls.on(Hls.Events.ERROR, function(event, data) {
-                    showError('स्ट्रीम लोड करने में त्रुटि। कृपया बाद में प्रयास करें।');
-                    playerStatus.innerHTML = '❌ स्ट्रीम कनेक्ट नहीं हो पा रही';
-                    playerStatus.style.background = 'linear-gradient(90deg, #8B0000, #B22222)';
-                });
-            } else {
-                showError('आपका ब्राउज़र लाइव स्ट्रीमिंग को सपोर्ट नहीं करता।');
-            }
+                }
+            }, 2000);
         }
 
+        // Add Android Play Button
+        function addAndroidPlayButton() {
+            // Remove existing button if any
+            const existingBtn = document.getElementById('androidPlayBtn');
+            if (existingBtn) existingBtn.remove();
+            
+            const playBtn = document.createElement('button');
+            playBtn.id = 'androidPlayBtn';
+            playBtn.innerHTML = '<i class="fas fa-play"></i> लाइव प्रसारण शुरू करें';
+            
+            // Insert after player
+            const playerContainer = document.querySelector('.premium-player');
+            playerContainer.parentNode.insertBefore(playBtn, playerContainer.nextSibling);
+            
+            // Add event listener
+            playBtn.addEventListener('click', function() {
+                videoPlayer.play().then(() => {
+                    playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
+                    playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
+                    playBtn.style.display = 'none';
+                    hideError();
+                }).catch(error => {
+                    console.error('Playback failed:', error);
+                    showError('प्लेबैक शुरू करने में त्रुटि: ' + error.message);
+                });
+            });
+        }
+
+        // Show Error Message
         function showError(message) {
-            errorAlert.innerHTML = `<div style="background:linear-gradient(90deg,#8B0000,#B22222);padding:1rem;border-radius:10px;color:white;text-align:center;">
-                <i class="fas fa-exclamation-triangle"></i> ${message}
-            </div>`;
-            setTimeout(hideError, 5000);
+            errorAlert.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i> ${message}
+                    ${currentStreamIndex < streamUrls.length - 1 ? 
+                        '<button onclick="tryNextStream()">बैकअप आज़माएं</button>' : 
+                        '<button onclick="location.reload()">रीफ्रेश करें</button>'
+                    }
+                </div>
+            `;
         }
 
+        // Hide Error Message
         function hideError() {
             errorAlert.innerHTML = '';
         }
 
-        // Katha Database (All Content Preserved with new video added)
+        // ============================
+        // KATHA DATABASE & NAVIGATION
+        // ============================
+
         const kathaDatabase = {
             bhagwat: {
                 name: "देवी भागवत कथा",
@@ -1506,7 +1747,7 @@
                 
                 gurujiCard.innerHTML = `
                     <div class="guruji-avatar">
-                        ${guruji.photo ? `<img src="${guruji.photo}" alt="${guruji.name}">` : guruji.avatar}
+                        ${guruji.photo ? `<img src="${guruji.photo}" alt="${guruji.name}" onerror="this.parentElement.innerHTML='${guruji.avatar}'">` : guruji.avatar}
                     </div>
                     <div class="guruji-info">
                         <div class="guruji-name">${guruji.name}</div>
@@ -1710,27 +1951,55 @@
             
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            
+            // Android WebView में YouTube iframe के लिए विशेष सेटिंग
+            const iframe = youtubePlayer.querySelector('iframe');
+            if (iframe) {
+                iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+                iframe.setAttribute('webkitallowfullscreen', 'true');
+                iframe.setAttribute('mozallowfullscreen', 'true');
+            }
         }
 
         function closeVideoModal() {
             const modal = document.getElementById('videoModal');
             const youtubePlayer = document.getElementById('youtubePlayer');
             
+            // Stop YouTube video
+            const iframe = youtubePlayer.querySelector('iframe');
+            if (iframe) {
+                iframe.src = '';
+            }
+            
             youtubePlayer.innerHTML = '';
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        // Initialize
+        // ============================
+        // INITIALIZATION
+        // ============================
+
         document.addEventListener('DOMContentLoaded', function() {
-            playerStatus.innerHTML = '📡 लाइव प्रसारण लोड हो रहा है...';
+            console.log('दिव्यलोक टीवी Android ऐप लोड हो रहा है...');
+            
+            // Detect device
+            const device = detectDevice();
+            console.log('Device detected:', device);
+            
+            // Initialize player for Android
+            initPlayerForAndroid();
+            
+            // Load programs
             loadPrograms();
+            
+            // Update navigation steps
             updateSteps();
             
-            // Auto-play live stream on page load
+            // Start live stream setup after short delay
             setTimeout(() => {
-                autoPlayLiveStream();
-            }, 1000);
+                startLiveStream();
+            }, 1500);
             
             // Close modal when clicking outside
             window.addEventListener('click', function(event) {
@@ -1746,7 +2015,59 @@
                     closeVideoModal();
                 }
             });
+            
+            // Handle page visibility changes
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    console.log('पेज background में चला गया');
+                } else {
+                    console.log('पेज foreground में आ गया');
+                    // Resume playback if needed
+                    if (!videoPlayer.paused && videoPlayer.currentTime > 0) {
+                        videoPlayer.play().catch(e => console.log('Resume playback failed:', e));
+                    }
+                }
+            });
+            
+            // Handle orientation changes for Android
+            window.addEventListener('orientationchange', function() {
+                console.log('Orientation changed:', window.orientation);
+                // Small delay for orientation to settle
+                setTimeout(() => {
+                    if (videoPlayer.paused && videoPlayer.currentTime > 0) {
+                        videoPlayer.play().catch(e => console.log('Orientation change playback failed:', e));
+                    }
+                }, 300);
+            });
         });
+
+        // Android Back Button Support
+        window.addEventListener('popstate', function(event) {
+            const modal = document.getElementById('videoModal');
+            if (modal.style.display === 'flex') {
+                closeVideoModal();
+                event.preventDefault();
+            } else if (currentState.location || currentState.guruji || currentState.category) {
+                resetToCategories();
+                event.preventDefault();
+            }
+        });
+
+        // Android-specific: Handle hardware back button in WebView
+        if (window.history && window.history.pushState) {
+            window.history.pushState({page: 'main'}, '', '');
+            
+            window.onpopstate = function(event) {
+                const modal = document.getElementById('videoModal');
+                if (modal.style.display === 'flex') {
+                    closeVideoModal();
+                    history.pushState({page: 'main'}, '', '');
+                } else if (currentState.location || currentState.guruji || currentState.category) {
+                    resetToCategories();
+                    history.pushState({page: 'main'}, '', '');
+                }
+            };
+        }
     </script>
 </body>
 </html>
