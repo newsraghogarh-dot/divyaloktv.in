@@ -159,7 +159,7 @@
         /* Main Container */
         .luxury-container {
             max-width: 1200px;
-            margin: 3rem auto;
+            margin: 2rem auto;
             padding: 0 2rem;
             position: relative;
         }
@@ -171,8 +171,8 @@
                 rgba(255, 215, 0, 0.03) 100%);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 3rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
             border: 1px solid rgba(255, 215, 0, 0.2);
             position: relative;
             overflow: hidden;
@@ -197,10 +197,10 @@
         }
 
         .luxury-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             box-shadow: 
-                0 30px 70px rgba(0, 0, 0, 0.7),
-                0 0 50px rgba(255, 215, 0, 0.2);
+                0 25px 60px rgba(0, 0, 0, 0.7),
+                0 0 40px rgba(255, 215, 0, 0.2);
             border-color: rgba(255, 215, 0, 0.4);
         }
 
@@ -209,52 +209,52 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             position: relative;
         }
 
         .section-header::after {
             content: '';
             position: absolute;
-            bottom: -15px;
+            bottom: -10px;
             left: 0;
-            width: 100px;
+            width: 80px;
             height: 3px;
             background: linear-gradient(90deg, var(--primary-gold), transparent);
         }
 
         .section-icon {
-            width: 70px;
-            height: 70px;
+            width: 55px;
+            height: 55px;
             background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: var(--deep-blue);
-            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 15px rgba(255, 215, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .section-title {
             font-family: 'Marcellus', serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: var(--light-gold);
             font-weight: 400;
             letter-spacing: 1px;
         }
 
-        /* Live Player */
+        /* Live Stream Player */
         .premium-player {
             width: 100%;
-            max-width: 1000px;
-            margin: 0 auto 2rem;
+            max-width: 900px;
+            margin: 0 auto;
             background: #000;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 3px solid var(--primary-gold);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
             position: relative;
         }
 
@@ -268,9 +268,9 @@
         .player-status {
             background: linear-gradient(90deg, var(--navy-blue), var(--royal-purple));
             color: var(--light-gold);
-            padding: 1rem;
+            padding: 0.8rem;
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
@@ -279,38 +279,38 @@
         /* Android Play Button */
         #androidPlayBtn {
             display: block;
-            margin: 20px auto;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            margin: 15px auto;
+            padding: 12px 25px;
+            font-size: 1rem;
             background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
             color: var(--deep-blue);
             border: none;
-            border-radius: 50px;
+            border-radius: 40px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
         }
 
         #androidPlayBtn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.6);
+            transform: scale(1.03);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.6);
         }
 
         #androidPlayBtn:active {
             transform: scale(0.98);
         }
 
-        /* Navigation Guide */
+        /* HORIZONTAL LANDSCAPE Navigation Guide - आड़े वाला */
         .navigation-guide {
             background: linear-gradient(135deg, 
-                rgba(255, 215, 0, 0.1) 0%,
-                rgba(74, 20, 140, 0.1) 100%);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+                rgba(255, 215, 0, 0.06) 0%,
+                rgba(74, 20, 140, 0.06) 100%);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 215, 0, 0.15);
             position: relative;
             overflow: hidden;
         }
@@ -318,25 +318,31 @@
         .guide-title {
             text-align: center;
             color: var(--light-gold);
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
             font-weight: 500;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
         }
 
+        /* HORIZONTAL Step Track - आड़े वाला */
         .step-track {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
             position: relative;
-            margin: 3rem 0;
+            margin: 0.5rem 0;
+            padding: 0 0.5rem;
+            gap: 0.5rem;
         }
 
         .step-track::before {
             content: '';
             position: absolute;
-            top: 30px;
+            top: 20px; /* Step number के नीचे की लाइन */
             left: 10%;
             right: 10%;
-            height: 4px;
+            height: 2px;
             background: linear-gradient(90deg, 
                 transparent 0%, 
                 var(--primary-gold) 20%, 
@@ -351,74 +357,87 @@
             flex-direction: column;
             align-items: center;
             z-index: 2;
-            width: 20%;
+            width: 22%;
+            position: relative;
+            text-align: center;
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
             background: linear-gradient(135deg, var(--deep-blue), var(--navy-blue));
-            border: 3px solid var(--primary-gold);
+            border: 2px solid var(--primary-gold);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            margin-bottom: 0.8rem;
         }
 
         .step.active .step-number {
             background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
             color: var(--deep-blue);
             transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
-        .step-label {
+        .step-main-label {
             color: var(--light-gold);
             font-size: 0.9rem;
-            text-align: center;
-            font-weight: 500;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 0.3rem;
             min-height: 40px;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
-        .step.active .step-label {
+        .step-description {
+            color: var(--secondary-gold);
+            font-size: 0.75rem;
+            line-height: 1.2;
+            opacity: 0.9;
+            min-height: 32px;
+        }
+
+        .step.active .step-main-label {
             color: var(--primary-gold);
-            font-weight: 600;
         }
 
         /* Category Selection */
         .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .category-tile {
             background: linear-gradient(145deg, 
                 rgba(255, 255, 255, 0.08) 0%,
                 rgba(255, 215, 0, 0.05) 100%);
-            border-radius: 15px;
-            padding: 2.5rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 215, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
 
         .category-tile:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-4px) scale(1.02);
             border-color: var(--primary-gold);
-            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
         }
 
         .category-tile::before {
@@ -427,13 +446,13 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: linear-gradient(90deg, 
                 var(--royal-purple),
                 var(--primary-gold),
                 var(--saffron));
             transform: translateY(-100%);
-            transition: transform 0.4s ease;
+            transition: transform 0.3s ease;
         }
 
         .category-tile:hover::before {
@@ -441,32 +460,33 @@
         }
 
         .category-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 1rem;
             background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             color: var(--deep-blue);
-            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 15px rgba(255, 215, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .category-name {
-            font-size: 1.3rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--light-gold);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
         }
 
         .category-desc {
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             color: var(--secondary-gold);
             opacity: 0.9;
-            line-height: 1.5;
+            line-height: 1.3;
         }
 
         /* Content Display Areas */
@@ -476,13 +496,13 @@
 
         .content-display.active {
             display: block;
-            animation: fadeInUp 0.5s ease;
+            animation: fadeInUp 0.4s ease;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -493,44 +513,44 @@
         /* Guruji Cards */
         .guruji-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .guruji-card {
             background: linear-gradient(145deg, 
                 rgba(255, 255, 255, 0.08) 0%,
                 rgba(255, 215, 0, 0.05) 100%);
-            border-radius: 15px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.2rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 215, 0, 0.1);
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .guruji-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--primary-gold);
-            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
         }
 
         .guruji-avatar {
-            width: 80px;
-            height: 80px;
-            min-width: 80px;
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
             background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             color: var(--deep-blue);
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
 
@@ -545,78 +565,80 @@
         }
 
         .guruji-name {
-            font-size: 1.3rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--light-gold);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
         }
 
         /* Location Cards */
         .location-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .location-card {
             background: linear-gradient(145deg, 
                 rgba(255, 255, 255, 0.08) 0%,
                 rgba(255, 215, 0, 0.05) 100%);
-            border-radius: 15px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.2rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 215, 0, 0.1);
             text-align: center;
         }
 
         .location-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--primary-gold);
-            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
         }
 
         .location-icon {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .location-name {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--light-gold);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
         }
 
         /* Video Grid */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .video-card {
             background: linear-gradient(145deg, 
                 rgba(255, 255, 255, 0.08) 0%,
                 rgba(255, 215, 0, 0.05) 100%);
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 215, 0, 0.1);
         }
 
         .video-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             border-color: var(--primary-gold);
-            box-shadow: 0 25px 50px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
         }
 
         .video-thumbnail {
             position: relative;
-            height: 200px;
+            height: 160px;
             overflow: hidden;
         }
 
@@ -624,7 +646,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.4s ease;
         }
 
         .video-card:hover .video-thumbnail img {
@@ -633,52 +655,52 @@
 
         .video-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 10px;
+            right: 10px;
             background: linear-gradient(135deg, var(--saffron), #E65100);
             color: white;
-            padding: 6px 15px;
-            border-radius: 15px;
-            font-size: 0.9rem;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
         .video-content {
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .video-title {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--light-gold);
-            margin-bottom: 1rem;
-            line-height: 1.4;
-            min-height: 60px;
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+            min-height: 45px;
         }
 
         .video-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
-            padding-top: 1rem;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
             border-top: 1px solid rgba(255, 215, 0, 0.2);
         }
 
         /* Programs */
         .program-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .program-card {
             background: linear-gradient(145deg, 
                 rgba(255, 255, 255, 0.08) 0%,
                 rgba(255, 215, 0, 0.05) 100%);
-            border-radius: 15px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.2rem;
             border: 1px solid rgba(255, 215, 0, 0.1);
             position: relative;
             overflow: hidden;
@@ -687,45 +709,46 @@
         .program-card::before {
             content: 'UPCOMING';
             position: absolute;
-            top: 20px;
+            top: 12px;
             right: -30px;
             background: linear-gradient(135deg, var(--royal-purple), var(--navy-blue));
             color: var(--primary-gold);
-            padding: 5px 40px;
+            padding: 3px 30px;
             transform: rotate(45deg);
-            font-size: 0.8rem;
+            font-size: 0.65rem;
             font-weight: 600;
         }
 
         .program-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             font-weight: 600;
+            line-height: 1.3;
         }
 
         /* Contact */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .contact-card {
             background: linear-gradient(145deg, 
                 rgba(255, 255, 255, 0.08) 0%,
                 rgba(255, 215, 0, 0.05) 100%);
-            border-radius: 15px;
-            padding: 2rem;
-            border-left: 4px solid var(--primary-gold);
-            transition: all 0.4s ease;
+            border-radius: 12px;
+            padding: 1.2rem;
+            border-left: 3px solid var(--primary-gold);
+            transition: all 0.3s ease;
         }
 
         .contact-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-left-color: var(--saffron);
-            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
         }
 
         /* Footer */
@@ -733,8 +756,8 @@
             background: linear-gradient(135deg, 
                 rgba(10, 17, 40, 0.95) 0%,
                 rgba(26, 35, 126, 0.95) 100%);
-            padding: 3rem 2rem;
-            margin-top: 4rem;
+            padding: 2rem 2rem;
+            margin-top: 2.5rem;
             border-top: 4px solid var(--primary-gold);
             position: relative;
         }
@@ -746,27 +769,27 @@
         }
 
         .footer-om {
-            font-size: 5rem;
+            font-size: 3.5rem;
             color: rgba(255, 215, 0, 0.2);
-            margin-bottom: 2rem;
+            margin-bottom: 1.2rem;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
+            gap: 1.2rem;
+            margin: 1.2rem 0;
         }
 
         .social-icon {
-            width: 60px;
-            height: 60px;
+            width: 45px;
+            height: 45px;
             background: rgba(255, 215, 0, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             color: var(--primary-gold);
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 215, 0, 0.2);
@@ -774,27 +797,27 @@
 
         .social-icon:hover {
             background: rgba(255, 215, 0, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(255, 215, 0, 0.3);
         }
 
         .copyright {
             color: var(--light-gold);
-            font-size: 1rem;
+            font-size: 0.85rem;
             opacity: 0.8;
-            margin-top: 2rem;
+            margin-top: 1.2rem;
         }
 
         /* Breadcrumb */
         .breadcrumb {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            gap: 0.6rem;
+            margin: 1rem 0;
+            padding: 0.8rem;
+            background: rgba(255, 215, 0, 0.06);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.12);
             flex-wrap: wrap;
         }
 
@@ -802,24 +825,26 @@
             color: var(--light-gold);
             cursor: pointer;
             transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
+            font-size: 0.85rem;
         }
 
         .breadcrumb-item:hover {
-            background: rgba(255, 215, 0, 0.2);
+            background: rgba(255, 215, 0, 0.12);
             color: var(--primary-gold);
         }
 
         .breadcrumb-active {
             color: var(--primary-gold);
             font-weight: 600;
-            background: rgba(255, 215, 0, 0.2);
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
+            background: rgba(255, 215, 0, 0.12);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
         }
 
         /* Modal */
@@ -839,26 +864,26 @@
 
         .modal-content {
             width: 95%;
-            max-width: 1100px;
+            max-width: 900px;
             background: linear-gradient(145deg, var(--deep-blue), #1A237E);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 3px solid var(--primary-gold);
-            box-shadow: 0 30px 70px rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.2rem;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 20px 50px rgba(255, 215, 0, 0.3);
             position: relative;
         }
 
         .close-modal {
             position: absolute;
-            top: 20px;
-            right: 25px;
+            top: 12px;
+            right: 15px;
             color: var(--primary-gold);
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             z-index: 2001;
             transition: all 0.3s ease;
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -873,68 +898,119 @@
 
         /* Error Alert */
         #errorAlert {
-            margin-top: 1rem;
+            margin-top: 0.8rem;
             text-align: center;
         }
 
         .error-message {
             background: linear-gradient(90deg,#8B0000,#B22222);
-            padding: 1rem;
-            border-radius: 10px;
+            padding: 0.8rem;
+            border-radius: 8px;
             color: white;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
         }
 
         .error-message button {
-            margin-left: 10px;
-            padding: 5px 15px;
+            margin-left: 8px;
+            padding: 4px 12px;
             background: white;
             color: #B22222;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
+            font-size: 0.8rem;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .tv-logo {
-                max-width: 400px;
-            }
-            .section-title { font-size: 2rem; }
-            .luxury-card { padding: 2.5rem; }
-        }
-
+        /* Responsive adjustments for horizontal layout */
         @media (max-width: 768px) {
+            .step-track {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+            }
+            
+            .step-track::before {
+                display: none;
+            }
+            
+            .step {
+                width: 45%;
+                margin-bottom: 1rem;
+            }
+            
             .tv-logo {
                 max-width: 300px;
             }
             .tagline { font-size: 1.1rem; }
-            .section-title { font-size: 1.8rem; }
-            .luxury-card { padding: 2rem; }
-            .step-track { flex-direction: column; gap: 3rem; }
-            .step-track::before { display: none; }
-            .step { width: 100%; }
+            .section-title { font-size: 1.6rem; }
+            .luxury-card { padding: 1.5rem; }
             .category-grid, .guruji-grid, .location-grid, .video-grid, .program-grid, .contact-grid {
                 grid-template-columns: 1fr;
             }
             #androidPlayBtn {
-                padding: 12px 24px;
-                font-size: 1.1rem;
+                padding: 10px 20px;
+                font-size: 0.95rem;
             }
         }
 
         @media (max-width: 480px) {
+            .step {
+                width: 100%;
+                flex-direction: row;
+                align-items: flex-start;
+                text-align: left;
+                gap: 1rem;
+            }
+            
+            .step-number {
+                margin-bottom: 0;
+            }
+            
+            .step-content {
+                flex: 1;
+            }
+            
+            .step-main-label {
+                min-height: auto;
+                justify-content: flex-start;
+                margin-bottom: 0.2rem;
+            }
+            
+            .step-description {
+                min-height: auto;
+            }
+            
             .tv-logo {
                 max-width: 250px;
             }
-            .luxury-container { padding: 0 1rem; }
-            .luxury-card { padding: 1.5rem; }
-            .section-header { flex-direction: column; text-align: center; gap: 1rem; }
-            #androidPlayBtn {
-                padding: 10px 20px;
+            .luxury-container { 
+                padding: 0 1rem; 
+                margin: 1.2rem auto;
+            }
+            .luxury-card { 
+                padding: 1.2rem; 
+                margin-bottom: 1.2rem;
+            }
+            .section-header { 
+                flex-direction: column; 
+                text-align: center; 
+                gap: 0.8rem; 
+                margin-bottom: 1.2rem;
+            }
+            .navigation-guide {
+                padding: 0.8rem;
+                margin: 0.8rem 0;
+            }
+            .guide-title {
                 font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            #androidPlayBtn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
                 width: 90%;
             }
         }
@@ -962,7 +1038,7 @@
 
     <!-- Main Content -->
     <main class="luxury-container">
-        <!-- Live Stream -->
+        <!-- Live Stream Player -->
         <section class="luxury-card">
             <div class="section-header">
                 <div class="section-icon">
@@ -970,11 +1046,6 @@
                 </div>
                 <h2 class="section-title">लाइव प्रसारण</h2>
             </div>
-            
-            <p style="text-align:center; color:var(--light-gold); margin-bottom:2rem; font-size:1.1rem; line-height:1.6;">
-                <i class="fas fa-star" style="color:var(--primary-gold);"></i> 
-                दिव्यलोक टीवी का सीधा प्रसारण देखें। Android ऐप में बेहतर अनुभव के लिए प्ले बटन दबाएँ।
-            </p>
             
             <div class="premium-player">
                 <video id="videoPlayer" controls playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="false"></video>
@@ -995,25 +1066,37 @@
                 <h2 class="section-title">कथा संरचना</h2>
             </div>
             
-            <!-- Navigation Guide -->
+            <!-- HORIZONTAL LANDSCAPE Navigation Guide - आड़े वाला -->
             <div class="navigation-guide">
                 <h3 class="guide-title">क्रम से चुनें:</h3>
                 <div class="step-track">
                     <div class="step active" id="step1">
                         <div class="step-number">1</div>
-                        <div class="step-label">कथा प्रकार</div>
+                        <div class="step-content">
+                            <div class="step-main-label">कथा प्रकार</div>
+                            <div class="step-description">पहले कथा का प्रकार चुनें</div>
+                        </div>
                     </div>
                     <div class="step" id="step2">
                         <div class="step-number">2</div>
-                        <div class="step-label">गुरुजी</div>
+                        <div class="step-content">
+                            <div class="step-main-label">गुरुजी</div>
+                            <div class="step-description">फिर गुरुजी चुनें</div>
+                        </div>
                     </div>
                     <div class="step" id="step3">
                         <div class="step-number">3</div>
-                        <div class="step-label">स्थान</div>
+                        <div class="step-content">
+                            <div class="step-main-label">स्थान</div>
+                            <div class="step-description">कथा का स्थान चुनें</div>
+                        </div>
                     </div>
                     <div class="step" id="step4">
                         <div class="step-number">4</div>
-                        <div class="step-label">कथा भाग</div>
+                        <div class="step-content">
+                            <div class="step-main-label">कथा भाग</div>
+                            <div class="step-description">कथा का भाग चुनें</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1027,7 +1110,7 @@
             
             <!-- Categories -->
             <div id="categoryContainer" class="content-display active">
-                <h3 style="color:var(--light-gold); margin-bottom:2rem; font-size:1.3rem;">
+                <h3 style="color:var(--light-gold); margin-bottom:1.2rem; font-size:1.1rem;">
                     <i class="fas fa-book-open"></i> कृपया कथा प्रकार चुनें:
                 </h3>
                 <div class="category-grid">
@@ -1071,7 +1154,7 @@
             
             <!-- Gurujis -->
             <div id="gurujiContainer" class="content-display">
-                <h3 style="color:var(--light-gold); margin-bottom:2rem; font-size:1.3rem;">
+                <h3 style="color:var(--light-gold); margin-bottom:1.2rem; font-size:1.1rem;">
                     <i class="fas fa-user-tie"></i> गुरुजी चुनें:
                 </h3>
                 <div class="guruji-grid" id="gurujiGrid"></div>
@@ -1079,7 +1162,7 @@
             
             <!-- Locations -->
             <div id="locationContainer" class="content-display">
-                <h3 style="color:var(--light-gold); margin-bottom:2rem; font-size:1.3rem;">
+                <h3 style="color:var(--light-gold); margin-bottom:1.2rem; font-size:1.1rem;">
                     <i class="fas fa-map-marker-alt"></i> स्थान चुनें:
                 </h3>
                 <div class="location-grid" id="locationGrid"></div>
@@ -1087,7 +1170,7 @@
             
             <!-- Videos -->
             <div id="videosContainer" class="content-display">
-                <h3 style="color:var(--light-gold); margin-bottom:2rem; font-size:1.3rem;">
+                <h3 style="color:var(--light-gold); margin-bottom:1.2rem; font-size:1.1rem;">
                     <i class="fas fa-play-circle"></i> कथा के भाग:
                 </h3>
                 <div class="video-grid" id="videosGrid"></div>
@@ -1117,20 +1200,20 @@
             
             <div class="contact-grid">
                 <div class="contact-card">
-                    <h3 style="color:var(--primary-gold); margin-bottom:1rem;">
+                    <h3 style="color:var(--primary-gold); margin-bottom:0.8rem; font-size:1rem;">
                         <i class="fas fa-home"></i> मुख्य कार्यालय
                     </h3>
-                    <p style="color:var(--light-gold); line-height:1.6;">
+                    <p style="color:var(--light-gold); line-height:1.4; font-size:0.85rem;">
                         श्याम सिटी, मेन रोड, राघोगढ़ - जिला गुना<br>
                         मध्य प्रदेश 473226, भारत
                     </p>
                 </div>
                 
                 <div class="contact-card">
-                    <h3 style="color:var(--primary-gold); margin-bottom:1rem;">
+                    <h3 style="color:var(--primary-gold); margin-bottom:0.8rem; font-size:1rem;">
                         <i class="fas fa-phone-alt"></i> फोन / व्हाट्सएप
                     </h3>
-                    <p style="color:var(--light-gold); line-height:1.6;">
+                    <p style="color:var(--light-gold); line-height:1.4; font-size:0.85rem;">
                         <a href="tel:+919340702385" style="color:var(--primary-gold); text-decoration:none; font-weight:600;">
                             <i class="fab fa-whatsapp"></i> +91 93407 02385
                         </a><br>
@@ -1139,10 +1222,10 @@
                 </div>
                 
                 <div class="contact-card">
-                    <h3 style="color:var(--primary-gold); margin-bottom:1rem;">
+                    <h3 style="color:var(--primary-gold); margin-bottom:0.8rem; font-size:1rem;">
                         <i class="fas fa-envelope"></i> ईमेल
                     </h3>
-                    <p style="color:var(--light-gold); line-height:1.6;">
+                    <p style="color:var(--light-gold); line-height:1.4; font-size:0.85rem;">
                         <a href="mailto:Divyaloktv@gmail.com" style="color:var(--primary-gold); text-decoration:none; font-weight:600;">
                             <i class="fas fa-envelope"></i> Divyaloktv@gmail.com
                         </a><br>
@@ -1178,7 +1261,7 @@
             
             <p class="copyright">
                 © 2025 दिव्यलोक टीवी। सर्वाधिकार सुरक्षित।<br>
-                <span style="font-size:0.9rem; opacity:0.7;">
+                <span style="font-size:0.8rem; opacity:0.7;">
                     Android ऐप के लिए अनुकूलित
                 </span>
             </p>
@@ -1523,14 +1606,14 @@
             refreshBtn.style.cssText = `
                 display: block;
                 margin: 10px auto;
-                padding: 10px 20px;
+                padding: 8px 16px;
                 background: var(--primary-gold);
                 color: var(--deep-blue);
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
                 font-weight: bold;
-                font-size: 1rem;
+                font-size: 0.9rem;
             `;
             
             errorAlert.appendChild(refreshBtn);
@@ -1858,11 +1941,11 @@
                     </div>
                     <div class="guruji-info">
                         <div class="guruji-name">${guruji.name}</div>
-                        <div style="color:#FFEC8B; font-size:0.9rem; margin-top:0.5rem;">
+                        <div style="color:#FFEC8B; font-size:0.8rem; margin-top:0.4rem;">
                             <div><i class="fas fa-video"></i> ${totalVideos} कथाएं</div>
                             <div><i class="fas fa-map-marker-alt"></i> ${totalLocations} स्थान</div>
                         </div>
-                        <div style="color:#FFD700; font-size:0.85rem; margin-top:1rem;">
+                        <div style="color:#FFD700; font-size:0.75rem; margin-top:0.6rem;">
                             <i class="fas fa-arrow-right"></i> चुनने के लिए क्लिक करें
                         </div>
                     </div>
@@ -1899,10 +1982,10 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="location-name">${location.name}</div>
-                    <div style="color:#FFEC8B; font-size:0.9rem; margin-top:1rem;">
+                    <div style="color:#FFEC8B; font-size:0.8rem; margin-top:0.6rem;">
                         <i class="fas fa-play-circle"></i> ${location.videos.length} कथा भाग उपलब्ध
                     </div>
-                    <div style="color:#FFD700; font-size:0.85rem; margin-top:1rem;">
+                    <div style="color:#FFD700; font-size:0.75rem; margin-top:0.6rem;">
                         <i class="fas fa-eye"></i> देखने के लिए क्लिक करें
                     </div>
                 `;
@@ -1939,11 +2022,11 @@
                     <div class="video-content">
                         <div class="video-title">${video.title}</div>
                         <div class="video-meta">
-                            <div style="color:#FFD700;">
+                            <div style="color:#FFD700; font-size:0.8rem;">
                                 <i class="far fa-clock"></i> ${video.duration}
                             </div>
                             <button onclick="playYouTubeVideo('${video.id}')" 
-                                    style="background:#FFD700; color:#0A1128; border:none; padding:0.5rem 1.5rem; border-radius:25px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:0.5rem;">
+                                    style="background:#FFD700; color:#0A1128; border:none; padding:0.35rem 1rem; border-radius:20px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:0.3rem; font-size:0.8rem;">
                                 <i class="fas fa-play"></i> अब देखें
                             </button>
                         </div>
@@ -2011,26 +2094,26 @@
                 card.className = 'program-card';
                 card.innerHTML = `
                     <div class="program-title">${program.title}</div>
-                    <div style="color:#FFF8DC; font-size:0.95rem; line-height:1.6;">
-                        <div style="margin-bottom:0.8rem;">
+                    <div style="color:#FFF8DC; font-size:0.85rem; line-height:1.4;">
+                        <div style="margin-bottom:0.5rem;">
                             <i class="far fa-calendar-check" style="color:#FFD700;"></i>
-                            <span style="margin-left:0.5rem;">${program.date}</span>
+                            <span style="margin-left:0.4rem;">${program.date}</span>
                         </div>
-                        <div style="margin-bottom:0.8rem;">
+                        <div style="margin-bottom:0.5rem;">
                             <i class="far fa-clock" style="color:#FFD700;"></i>
-                            <span style="margin-left:0.5rem;">${program.time}</span>
+                            <span style="margin-left:0.4rem;">${program.time}</span>
+                        </div>
+                        <div style="margin-bottom:0.5rem;">
+                            <i class="fas fa-map-marker-alt" style="color:#FFD700;"></i>
+                            <span style="margin-left:0.4rem;">${program.location}</span>
                         </div>
                         <div style="margin-bottom:0.8rem;">
-                            <i class="fas fa-map-marker-alt" style="color:#FFD700;"></i>
-                            <span style="margin-left:0.5rem;">${program.location}</span>
-                        </div>
-                        <div style="margin-bottom:1rem;">
                             <i class="fas fa-user-tie" style="color:#FFD700;"></i>
-                            <span style="margin-left:0.5rem;">${program.vyas}</span>
+                            <span style="margin-left:0.4rem;">${program.vyas}</span>
                         </div>
-                        <div style="padding:1rem; background:rgba(255,215,0,0.1); border-radius:10px; border-left:3px solid #FFD700;">
+                        <div style="padding:0.6rem; background:rgba(255,215,0,0.08); border-radius:6px; border-left:3px solid #FFD700; font-size:0.8rem;">
                             <i class="fas fa-info-circle" style="color:#FFD700;"></i>
-                            <span style="margin-left:0.5rem;">${program.desc}</span>
+                            <span style="margin-left:0.4rem;">${program.desc}</span>
                         </div>
                     </div>
                 `;
@@ -2052,7 +2135,7 @@
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen
-                    style="border-radius:10px;">
+                    style="border-radius:8px;">
                 </iframe>
             `;
             
