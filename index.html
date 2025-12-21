@@ -273,6 +273,7 @@
             font-size: 1.1rem;
             font-weight: 500;
             letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
 
         /* Android Play Button */
@@ -873,6 +874,7 @@
         /* Error Alert */
         #errorAlert {
             margin-top: 1rem;
+            text-align: center;
         }
 
         .error-message {
@@ -981,7 +983,7 @@
                 </div>
             </div>
             
-            <div class="alert" id="errorAlert"></div>
+            <div id="errorAlert"></div>
         </section>
 
         <!-- Katha Structure -->
@@ -1201,38 +1203,41 @@
         const playerStatus = document.getElementById('playerStatus');
         const errorAlert = document.getElementById('errorAlert');
 
-        // Primary and Backup Stream URLs
-        const PRIMARY_STREAM = 'http://divyaloktv.co.in/divyaloktvhls/divyaloktvchannel.m3u8';
-        const BACKUP_STREAM = 'https://example.com/backup-stream.m3u8'; // अपना बैकअप URL यहां डालें
+        // Multiple Stream URLs for fallback
+        const streamUrls = [
+            'http://divyaloktv.co.in/divyaloktvhls/divyaloktvchannel.m3u8',
+            'https://cdn.example.com/divyaloktv/stream.m3u8',
+            'http://stream.divyaloktv.com/live/stream.m3u8'
+        ];
 
         let hls = null;
         let currentStreamIndex = 0;
-        const streamUrls = [PRIMARY_STREAM, BACKUP_STREAM];
+        let isPlaying = false;
+        let retryCount = 0;
+        const maxRetries = 3;
 
         // Detect Device Type
         function detectDevice() {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const isAndroid = /android/i.test(userAgent);
-            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-            
+            const userAgent = navigator.userAgent;
             return {
-                isAndroid,
-                isIOS,
-                isMobile,
-                userAgent
+                isAndroid: /Android/i.test(userAgent),
+                isIOS: /iPhone|iPad|iPod/i.test(userAgent),
+                isMobile: /Mobi|Android/i.test(userAgent),
+                isChrome: /Chrome/i.test(userAgent),
+                isFirefox: /Firefox/i.test(userAgent),
+                userAgent: userAgent
             };
         }
 
         // Initialize Player for Android APK
         function initPlayerForAndroid() {
             const device = detectDevice();
+            console.log('Device detected:', device);
             
-            // Android-specific attributes
             if (device.isAndroid) {
-                console.log('Android डिवाइस डिटेक्ट किया गया - WebView सेटअप');
+                console.log('Android device detected - applying WebView optimizations');
                 
-                // Android WebView compatibility attributes
+                // Android WebView specific attributes
                 videoPlayer.setAttribute('playsinline', 'true');
                 videoPlayer.setAttribute('webkit-playsinline', 'true');
                 videoPlayer.setAttribute('x5-playsinline', 'true');
@@ -1240,174 +1245,242 @@
                 videoPlayer.setAttribute('x5-video-player-fullscreen', 'false');
                 videoPlayer.setAttribute('controlsList', 'nodownload noremoteplayback');
                 
-                // Prevent default fullscreen behavior
+                // Add event listeners for Android WebView
                 videoPlayer.addEventListener('webkitbeginfullscreen', function() {
-                    console.log('Fullscreen started');
+                    console.log('Entering fullscreen');
                 });
                 
                 videoPlayer.addEventListener('webkitendfullscreen', function() {
-                    console.log('Fullscreen ended');
+                    console.log('Exiting fullscreen');
+                    // Resume playback if needed
+                    if (isPlaying) {
+                        videoPlayer.play().catch(e => console.log('Resume after fullscreen failed:', e));
+                    }
+                });
+                
+                // Prevent default Android video player
+                videoPlayer.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    return false;
                 });
             }
+            
+            // Common attributes for all devices
+            videoPlayer.setAttribute('preload', 'metadata');
+            videoPlayer.setAttribute('muted', 'false');
+            videoPlayer.setAttribute('autoplay', 'true');
+            
+            // Add error event listener
+            videoPlayer.addEventListener('error', function(e) {
+                console.error('Video element error:', videoPlayer.error);
+                handleVideoError(videoPlayer.error);
+            });
+            
+            videoPlayer.addEventListener('playing', function() {
+                console.log('Video started playing');
+                isPlaying = true;
+            });
+            
+            videoPlayer.addEventListener('pause', function() {
+                console.log('Video paused');
+                isPlaying = false;
+            });
+            
+            videoPlayer.addEventListener('waiting', function() {
+                console.log('Video buffering...');
+                playerStatus.innerHTML = '🔄 बफरिंग हो रहा है...';
+                playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+            });
+            
+            videoPlayer.addEventListener('canplay', function() {
+                console.log('Video can play');
+                if (!isPlaying) {
+                    videoPlayer.play().catch(e => {
+                        console.log('Auto-play prevented:', e);
+                        showPlayButton();
+                    });
+                }
+            });
         }
 
         // Setup Stream with HLS.js or native HLS
         function setupStream(streamUrl) {
             console.log('Setting up stream:', streamUrl);
             
-            // Destroy existing HLS instance
+            // Update status
+            playerStatus.innerHTML = '📡 स्ट्रीम कनेक्ट कर रहा है...';
+            playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+            
+            // Clean up existing HLS instance
             if (hls) {
                 hls.destroy();
                 hls = null;
             }
             
-            // Check for native HLS support (iOS Safari and some Android browsers)
+            // Check for native HLS support
             if (videoPlayer.canPlayType('application/vnd.apple.mpegurl') || 
                 videoPlayer.canPlayType('application/x-mpegURL')) {
                 
                 console.log('Using native HLS support');
-                videoPlayer.src = streamUrl;
-                playerStatus.innerHTML = '✅ स्ट्रीम तैयार है - प्ले बटन दबाएँ';
-                playerStatus.style.background = 'linear-gradient(90deg, #1E90FF, #4169E1)';
+                setupNativeHLS(streamUrl);
                 
             } else if (window.Hls && Hls.isSupported()) {
-                // Use Hls.js for HLS streaming
                 console.log('Using Hls.js for streaming');
-                
-                hls = new Hls({
-                    enableWorker: false, // Android WebView में worker समस्या दे सकता है
-                    lowLatencyMode: true,
-                    maxBufferLength: 30,
-                    maxMaxBufferLength: 60,
-                    liveSyncDurationCount: 3,
-                    liveMaxLatencyDurationCount: 10,
-                    manifestLoadingTimeOut: 10000,
-                    manifestLoadingMaxRetry: 3,
-                    levelLoadingTimeOut: 10000,
-                    levelLoadingMaxRetry: 3,
-                    fragLoadingTimeOut: 10000,
-                    fragLoadingMaxRetry: 3
-                });
-                
-                hls.loadSource(streamUrl);
-                hls.attachMedia(videoPlayer);
-                
-                // Event handlers
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    console.log('Manifest parsed successfully');
-                    playerStatus.innerHTML = '✅ स्ट्रीम तैयार है - प्ले बटन दबाएँ';
-                    playerStatus.style.background = 'linear-gradient(90deg, #1E90FF, #4169E1)';
-                    hideError();
-                });
-                
-                hls.on(Hls.Events.ERROR, function(event, data) {
-                    console.error('HLS Error:', data);
-                    
-                    if (data.fatal) {
-                        switch(data.type) {
-                            case Hls.ErrorTypes.NETWORK_ERROR:
-                                console.log('Network error, trying next stream');
-                                showError('नेटवर्क त्रुटि। बैकअप स्ट्रीम आज़मा रहा है...');
-                                tryNextStream();
-                                break;
-                            case Hls.ErrorTypes.MEDIA_ERROR:
-                                console.log('Media error, attempting recovery');
-                                hls.recoverMediaError();
-                                break;
-                            default:
-                                console.log('Fatal error, cannot recover');
-                                showError('स्ट्रीम त्रुटि। कृपया पेज रीलोड करें।');
-                                break;
-                        }
-                    }
-                });
-                
-                hls.on(Hls.Events.FRAG_LOADED, function(event, data) {
-                    console.log('Fragment loaded successfully');
-                });
+                setupHlsJs(streamUrl);
                 
             } else {
                 console.error('HLS not supported');
-                showError('आपका डिवाइस लाइव स्ट्रीमिंग को सपोर्ट नहीं करता।');
+                showError('आपका डिवाइस लाइव स्ट्रीमिंग को सपोर्ट नहीं करता। कृपया Chrome या Firefox का उपयोग करें।');
                 playerStatus.innerHTML = '❌ ब्राउज़र सपोर्ट नहीं करता';
                 playerStatus.style.background = 'linear-gradient(90deg, #8B0000, #B22222)';
             }
         }
 
-        // Try next available stream
-        function tryNextStream() {
-            currentStreamIndex++;
+        function setupNativeHLS(streamUrl) {
+            videoPlayer.src = streamUrl;
             
-            if (currentStreamIndex < streamUrls.length) {
-                playerStatus.innerHTML = `🔄 बैकअप स्ट्रीम #${currentStreamIndex+1} आज़मा रहा है...`;
-                playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
-                
-                // Try next stream after short delay
-                setTimeout(() => {
-                    setupStream(streamUrls[currentStreamIndex]);
-                }, 1000);
-            } else {
-                showError('सभी स्ट्रीम असफल। कृपया बाद में प्रयास करें।');
-                playerStatus.innerHTML = '❌ सभी स्ट्रीम असफल';
-                playerStatus.style.background = 'linear-gradient(90deg, #8B0000, #B22222)';
-                
-                // Show manual refresh button
-                const refreshBtn = document.createElement('button');
-                refreshBtn.innerHTML = '🔄 पेज रीफ्रेश करें';
-                refreshBtn.onclick = function() { location.reload(); };
-                refreshBtn.style.cssText = `
-                    margin-top: 10px;
-                    padding: 8px 16px;
-                    background: var(--primary-gold);
-                    color: var(--deep-blue);
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-weight: bold;
-                `;
-                
-                errorAlert.appendChild(refreshBtn);
+            // Try to play immediately
+            const playPromise = videoPlayer.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Native HLS autoplay successful');
+                    playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
+                    playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
+                    hideError();
+                    hidePlayButton();
+                }).catch(error => {
+                    console.log('Native HLS autoplay prevented:', error);
+                    playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए प्ले बटन दबाएँ';
+                    playerStatus.style.background = 'linear-gradient(90deg, #1A237E, #4A148C)';
+                    showPlayButton();
+                });
             }
         }
 
-        // Start Live Stream (called when user clicks play button)
-        function startLiveStream() {
-            const streamToPlay = streamUrls[currentStreamIndex];
+        function setupHlsJs(streamUrl) {
+            hls = new Hls({
+                enableWorker: false, // Android WebView compatibility
+                lowLatencyMode: true,
+                maxBufferLength: 30,
+                maxMaxBufferLength: 60,
+                liveSyncDurationCount: 3,
+                liveMaxLatencyDurationCount: 10,
+                manifestLoadingTimeOut: 10000,
+                manifestLoadingMaxRetry: 3,
+                levelLoadingTimeOut: 10000,
+                levelLoadingMaxRetry: 3,
+                fragLoadingTimeOut: 10000,
+                fragLoadingMaxRetry: 3,
+                abrEwmaDefaultEstimate: 500000,
+                startFragPrefetch: true,
+                autoStartLoad: true
+            });
             
-            playerStatus.innerHTML = '📡 स्ट्रीम कनेक्ट कर रहा है...';
-            playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+            hls.loadSource(streamUrl);
+            hls.attachMedia(videoPlayer);
             
-            setupStream(streamToPlay);
-            
-            // Try to auto-play after setup
-            setTimeout(() => {
+            // Event handlers
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                console.log('Manifest parsed successfully');
+                
+                // Try to auto-play
                 const playPromise = videoPlayer.play();
                 
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
-                        console.log('Autoplay started successfully');
+                        console.log('Hls.js autoplay successful');
                         playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
                         playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
-                        
-                        // Hide play button
-                        const playBtn = document.getElementById('androidPlayBtn');
-                        if (playBtn) playBtn.style.display = 'none';
-                        
                         hideError();
+                        hidePlayButton();
                     }).catch(error => {
-                        console.log('Autoplay prevented:', error);
-                        playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए नीचे प्ले बटन दबाएँ';
+                        console.log('Hls.js autoplay prevented:', error);
+                        playerStatus.innerHTML = '▶️ प्रसारण शुरू करने के लिए प्ले बटन दबाएँ';
                         playerStatus.style.background = 'linear-gradient(90deg, #1A237E, #4A148C)';
-                        
-                        // Show play button for manual start
-                        addAndroidPlayButton();
+                        showPlayButton();
                     });
                 }
-            }, 2000);
+            });
+            
+            hls.on(Hls.Events.ERROR, function(event, data) {
+                console.error('HLS Error:', data);
+                
+                if (data.fatal) {
+                    switch(data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            console.log('Network error, trying next stream');
+                            showError('नेटवर्क त्रुटि। अगली स्ट्रीम आज़मा रहा है...');
+                            tryNextStream();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            console.log('Media error, attempting recovery');
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            console.log('Fatal error, cannot recover');
+                            showError('स्ट्रीम त्रुटि। कृपया पेज रीलोड करें।');
+                            break;
+                    }
+                }
+            });
+            
+            hls.on(Hls.Events.FRAG_LOADED, function(event, data) {
+                console.log('Fragment loaded successfully');
+            });
+            
+            hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
+                console.log('Level loaded:', data.level);
+            });
         }
 
-        // Add Android Play Button
-        function addAndroidPlayButton() {
+        // Handle video element errors
+        function handleVideoError(error) {
+            console.error('Video error code:', error ? error.code : 'unknown');
+            
+            switch(error ? error.code : 0) {
+                case MediaError.MEDIA_ERR_NETWORK:
+                    showError('नेटवर्क त्रुटि। इंटरनेट कनेक्शन जाँचें।');
+                    tryNextStream();
+                    break;
+                case MediaError.MEDIA_ERR_DECODE:
+                    showError('वीडियो डिकोड त्रुटि। ब्राउज़र अपडेट करें।');
+                    break;
+                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                    showError('स्ट्रीम फॉर्मेट सपोर्ट नहीं।');
+                    tryNextStream();
+                    break;
+                default:
+                    showError('अज्ञात वीडियो त्रुटि।');
+                    break;
+            }
+        }
+
+        // Try next available stream
+        function tryNextStream() {
+            retryCount++;
+            
+            if (retryCount >= maxRetries) {
+                showError(`सभी ${maxRetries} प्रयास असफल। कृपया बाद में प्रयास करें।`);
+                playerStatus.innerHTML = '❌ कनेक्शन असफल';
+                playerStatus.style.background = 'linear-gradient(90deg, #8B0000, #B22222)';
+                showRefreshButton();
+                return;
+            }
+            
+            currentStreamIndex = (currentStreamIndex + 1) % streamUrls.length;
+            
+            playerStatus.innerHTML = `🔄 स्ट्रीम ${currentStreamIndex + 1}/${streamUrls.length} आज़मा रहा है...`;
+            playerStatus.style.background = 'linear-gradient(90deg, #FF8C00, #FFA500)';
+            
+            // Try next stream after short delay
+            setTimeout(() => {
+                setupStream(streamUrls[currentStreamIndex]);
+            }, 1000);
+        }
+
+        // Show/Hide Play Button
+        function showPlayButton() {
             // Remove existing button if any
             const existingBtn = document.getElementById('androidPlayBtn');
             if (existingBtn) existingBtn.remove();
@@ -1423,15 +1496,44 @@
             // Add event listener
             playBtn.addEventListener('click', function() {
                 videoPlayer.play().then(() => {
+                    console.log('Manual play successful');
                     playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
                     playerStatus.style.background = 'linear-gradient(90deg, #228B22, #32CD32)';
                     playBtn.style.display = 'none';
                     hideError();
                 }).catch(error => {
-                    console.error('Playback failed:', error);
+                    console.error('Manual playback failed:', error);
                     showError('प्लेबैक शुरू करने में त्रुटि: ' + error.message);
                 });
             });
+        }
+
+        function hidePlayButton() {
+            const playBtn = document.getElementById('androidPlayBtn');
+            if (playBtn) {
+                playBtn.style.display = 'none';
+            }
+        }
+
+        // Show Refresh Button
+        function showRefreshButton() {
+            const refreshBtn = document.createElement('button');
+            refreshBtn.innerHTML = '🔄 पेज रीफ्रेश करें';
+            refreshBtn.onclick = function() { location.reload(); };
+            refreshBtn.style.cssText = `
+                display: block;
+                margin: 10px auto;
+                padding: 10px 20px;
+                background: var(--primary-gold);
+                color: var(--deep-blue);
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 1rem;
+            `;
+            
+            errorAlert.appendChild(refreshBtn);
         }
 
         // Show Error Message
@@ -1439,10 +1541,8 @@
             errorAlert.innerHTML = `
                 <div class="error-message">
                     <i class="fas fa-exclamation-triangle"></i> ${message}
-                    ${currentStreamIndex < streamUrls.length - 1 ? 
-                        '<button onclick="tryNextStream()">बैकअप आज़माएं</button>' : 
-                        '<button onclick="location.reload()">रीफ्रेश करें</button>'
-                    }
+                    <button onclick="tryNextStream()">अगली स्ट्रीम आज़माएं</button>
+                    <button onclick="location.reload()">रीफ्रेश करें</button>
                 </div>
             `;
         }
@@ -1450,6 +1550,13 @@
         // Hide Error Message
         function hideError() {
             errorAlert.innerHTML = '';
+        }
+
+        // Start Live Stream
+        function startLiveStream() {
+            console.log('Starting live stream...');
+            initPlayerForAndroid();
+            setupStream(streamUrls[currentStreamIndex]);
         }
 
         // ============================
@@ -1940,7 +2047,7 @@
                 <iframe 
                     width="100%" 
                     height="100%" 
-                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&controls=1&showinfo=0" 
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&controls=1&showinfo=0&playsinline=1" 
                     title="YouTube video player" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -1952,12 +2059,13 @@
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             
-            // Android WebView में YouTube iframe के लिए विशेष सेटिंग
+            // Android WebView optimizations
             const iframe = youtubePlayer.querySelector('iframe');
             if (iframe) {
                 iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
                 iframe.setAttribute('webkitallowfullscreen', 'true');
                 iframe.setAttribute('mozallowfullscreen', 'true');
+                iframe.setAttribute('allowfullscreen', 'true');
             }
         }
 
@@ -1983,23 +2091,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('दिव्यलोक टीवी Android ऐप लोड हो रहा है...');
             
-            // Detect device
-            const device = detectDevice();
-            console.log('Device detected:', device);
-            
-            // Initialize player for Android
-            initPlayerForAndroid();
-            
             // Load programs
             loadPrograms();
             
             // Update navigation steps
             updateSteps();
             
-            // Start live stream setup after short delay
-            setTimeout(() => {
-                startLiveStream();
-            }, 1500);
+            // Start live stream
+            startLiveStream();
             
             // Close modal when clicking outside
             window.addEventListener('click', function(event) {
@@ -2019,23 +2118,27 @@
             // Handle page visibility changes
             document.addEventListener('visibilitychange', function() {
                 if (document.hidden) {
-                    console.log('पेज background में चला गया');
+                    console.log('Page hidden');
+                    // Pause video when page is not visible
+                    if (!videoPlayer.paused) {
+                        videoPlayer.pause();
+                    }
                 } else {
-                    console.log('पेज foreground में आ गया');
-                    // Resume playback if needed
-                    if (!videoPlayer.paused && videoPlayer.currentTime > 0) {
-                        videoPlayer.play().catch(e => console.log('Resume playback failed:', e));
+                    console.log('Page visible');
+                    // Resume video if it was playing
+                    if (isPlaying && videoPlayer.paused) {
+                        videoPlayer.play().catch(e => console.log('Resume failed:', e));
                     }
                 }
             });
             
-            // Handle orientation changes for Android
+            // Handle orientation changes for mobile
             window.addEventListener('orientationchange', function() {
-                console.log('Orientation changed:', window.orientation);
-                // Small delay for orientation to settle
+                console.log('Orientation changed to:', window.orientation);
+                // Re-layout after orientation change
                 setTimeout(() => {
-                    if (videoPlayer.paused && videoPlayer.currentTime > 0) {
-                        videoPlayer.play().catch(e => console.log('Orientation change playback failed:', e));
+                    if (isPlaying && videoPlayer.paused) {
+                        videoPlayer.play().catch(e => console.log('Orientation resume failed:', e));
                     }
                 }, 300);
             });
@@ -2053,7 +2156,7 @@
             }
         });
 
-        // Android-specific: Handle hardware back button in WebView
+        // Push initial state for back button handling
         if (window.history && window.history.pushState) {
             window.history.pushState({page: 'main'}, '', '');
             
@@ -2068,6 +2171,24 @@
                 }
             };
         }
+
+        // Handle network status
+        window.addEventListener('online', function() {
+            console.log('Network online');
+            if (!isPlaying && retryCount < maxRetries) {
+                playerStatus.innerHTML = '📡 कनेक्शन रिस्टोर हो रहा है...';
+                setTimeout(() => {
+                    startLiveStream();
+                }, 1000);
+            }
+        });
+
+        window.addEventListener('offline', function() {
+            console.log('Network offline');
+            showError('इंटरनेट कनेक्शन खो गया। कृपया कनेक्शन चेक करें।');
+            playerStatus.innerHTML = '❌ नेटवर्क ऑफलाइन';
+            playerStatus.style.background = 'linear-gradient(90deg, #8B0000, #B22222)';
+        });
     </script>
 </body>
 </html>
