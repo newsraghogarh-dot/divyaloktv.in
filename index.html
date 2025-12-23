@@ -36,70 +36,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            padding-top: 80px; /* Navigation bar के लिए space */
-        }
-
-        /* Navigation Bar - Fixed at Top */
-        .nav-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(135deg, 
-                rgba(10, 17, 40, 0.95) 0%,
-                rgba(26, 35, 126, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            border-bottom: 3px solid var(--primary-gold);
-            z-index: 1000;
-            padding: 0.8rem 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .nav-controls {
-            display: flex;
-            gap: 0.8rem;
-        }
-
-        .nav-btn {
-            background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
-            color: var(--deep-blue);
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
-            white-space: nowrap;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(255, 215, 0, 0.5);
-        }
-
-        .nav-btn:active {
-            transform: translateY(0);
-        }
-
-        .nav-btn i {
-            font-size: 1rem;
-        }
-
-        .back-btn {
-            background: linear-gradient(135deg, var(--navy-blue), var(--royal-purple));
-            color: var(--light-gold);
-        }
-
-        .back-btn:hover {
-            background: linear-gradient(135deg, var(--royal-purple), var(--navy-blue));
         }
 
         /* Divine Background Effects */
@@ -146,7 +82,6 @@
             border-bottom: 4px solid var(--primary-gold);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(20px);
-            margin-top: 20px;
         }
 
         .header-content {
@@ -218,6 +153,64 @@
             margin-top: 0.5rem;
             opacity: 0.9;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Page Controls - Header के नीचे */
+        .page-controls {
+            background: linear-gradient(135deg, 
+                rgba(10, 17, 40, 0.8) 0%,
+                rgba(26, 35, 126, 0.8) 100%);
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            border-bottom: 2px solid var(--primary-gold);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
+            color: var(--deep-blue);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+            white-space: nowrap;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 215, 0, 0.5);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn i {
+            font-size: 1rem;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, var(--navy-blue), var(--royal-purple));
+            color: var(--light-gold);
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, var(--royal-purple), var(--navy-blue));
         }
 
         /* Main Container */
@@ -990,17 +983,14 @@
 
         /* Responsive adjustments for horizontal layout */
         @media (max-width: 768px) {
-            body {
-                padding-top: 70px;
-            }
-            
-            .nav-bar {
+            .page-controls {
                 padding: 0.6rem 1rem;
             }
             
-            .nav-btn {
+            .control-btn {
                 padding: 0.5rem 1rem;
                 font-size: 0.8rem;
+                min-width: 100px;
             }
             
             .step-track {
@@ -1034,22 +1024,17 @@
         }
 
         @media (max-width: 480px) {
-            body {
-                padding-top: 60px;
-            }
-            
-            .nav-bar {
+            .page-controls {
                 padding: 0.5rem;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
             }
             
-            .nav-controls {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .nav-btn {
+            .control-btn {
                 padding: 0.4rem 0.8rem;
                 font-size: 0.75rem;
+                min-width: 90%;
             }
             
             .step {
@@ -1119,18 +1104,6 @@
     <div class="floating-oms">ॐ</div>
     <div class="floating-oms">ॐ</div>
 
-    <!-- Fixed Navigation Bar -->
-    <nav class="nav-bar">
-        <div class="nav-controls">
-            <button id="homeBtn" class="nav-btn">
-                <i class="fas fa-home"></i> होम
-            </button>
-            <button id="backBtn" class="nav-btn back-btn" style="display:none;">
-                <i class="fas fa-arrow-left"></i> वापस
-            </button>
-        </div>
-    </nav>
-
     <!-- Header -->
     <header class="luxury-header">
         <div class="divine-border"></div>
@@ -1142,6 +1115,16 @@
             <p class="tagline">संस्कृति, संस्कार और सत्य का संगम</p>
         </div>
     </header>
+
+    <!-- Page Controls - Header के नीचे -->
+    <div class="page-controls">
+        <button id="homeBtn" class="control-btn">
+            <i class="fas fa-home"></i> होम
+        </button>
+        <button id="backBtn" class="control-btn back-btn" style="display:none;">
+            <i class="fas fa-arrow-left"></i> वापस
+        </button>
+    </div>
 
     <!-- Main Content -->
     <main class="luxury-container">
