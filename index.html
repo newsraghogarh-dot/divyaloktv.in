@@ -36,6 +36,90 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            padding-top: 80px; /* Navigation bar के लिए space */
+        }
+
+        /* Navigation Bar - Fixed at Top */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, 
+                rgba(10, 17, 40, 0.95) 0%,
+                rgba(26, 35, 126, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid var(--primary-gold);
+            z-index: 1000;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 8px;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .nav-logo span {
+            font-family: 'Marcellus', serif;
+            font-size: 1.3rem;
+            color: var(--primary-gold);
+            font-weight: 500;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
+            color: var(--deep-blue);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 215, 0, 0.5);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn i {
+            font-size: 1rem;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, var(--navy-blue), var(--royal-purple));
+            color: var(--light-gold);
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, var(--royal-purple), var(--navy-blue));
         }
 
         /* Divine Background Effects */
@@ -82,7 +166,7 @@
             border-bottom: 4px solid var(--primary-gold);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(20px);
-            z-index: 100;
+            margin-top: 20px;
         }
 
         .header-content {
@@ -926,6 +1010,23 @@
 
         /* Responsive adjustments for horizontal layout */
         @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .nav-bar {
+                padding: 0.6rem 1rem;
+            }
+            
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .nav-logo span {
+                font-size: 1.1rem;
+            }
+            
             .step-track {
                 flex-wrap: wrap;
                 justify-content: center;
@@ -957,6 +1058,31 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            .nav-bar {
+                flex-direction: column;
+                gap: 0.8rem;
+                padding: 0.5rem;
+            }
+            
+            .nav-logo {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-controls {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+            
             .step {
                 width: 100%;
                 flex-direction: row;
@@ -1023,6 +1149,23 @@
     <div class="floating-oms">ॐ</div>
     <div class="floating-oms">ॐ</div>
     <div class="floating-oms">ॐ</div>
+
+    <!-- Fixed Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-logo">
+            <img src="https://i.ibb.co/99Rgxtc3/divyalok-tv-logo.jpg" alt="दिव्यलोक टीवी">
+            <span>दिव्यलोक टीवी</span>
+        </div>
+        
+        <div class="nav-controls">
+            <button id="homeBtn" class="nav-btn">
+                <i class="fas fa-home"></i> होम
+            </button>
+            <button id="backBtn" class="nav-btn back-btn" style="display:none;">
+                <i class="fas fa-arrow-left"></i> वापस
+            </button>
+        </div>
+    </nav>
 
     <!-- Header -->
     <header class="luxury-header">
@@ -1277,6 +1420,143 @@
     </div>
 
     <script>
+        // ============================
+        // NAVIGATION CONTROLS
+        // ============================
+
+        // Navigation elements
+        const homeBtn = document.getElementById('homeBtn');
+        const backBtn = document.getElementById('backBtn');
+
+        // Home button functionality
+        homeBtn.addEventListener('click', function() {
+            // Close video modal if open
+            closeVideoModal();
+            
+            // Reset katha navigation
+            resetToCategories();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Hide back button
+            backBtn.style.display = 'none';
+            
+            console.log('Home button clicked - resetting to main page');
+        });
+
+        // Back button functionality
+        backBtn.addEventListener('click', function() {
+            goBack();
+        });
+
+        // Function to go back in katha navigation
+        function goBack() {
+            if (currentState.location) {
+                // Go back from videos to locations
+                currentState.location = null;
+                showContent('locationContainer');
+                loadLocations(currentState.guruji);
+                console.log('Going back from videos to locations');
+                
+            } else if (currentState.guruji) {
+                // Go back from locations to gurujis
+                currentState.guruji = null;
+                showContent('gurujiContainer');
+                loadGurujis(currentState.category);
+                console.log('Going back from locations to gurujis');
+                
+            } else if (currentState.category) {
+                // Go back from gurujis to categories
+                resetToCategories();
+                console.log('Going back from gurujis to categories');
+            }
+            
+            updateSteps();
+            updateBreadcrumb();
+            updateBackButtonVisibility();
+            
+            // Scroll to katha section
+            document.querySelector('.luxury-card:nth-child(2)').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Update back button visibility based on state
+        function updateBackButtonVisibility() {
+            if (currentState.category || currentState.guruji || currentState.location) {
+                backBtn.style.display = 'flex';
+            } else {
+                backBtn.style.display = 'none';
+            }
+        }
+
+        // Update all functions to call updateBackButtonVisibility
+        function selectCategory(categoryId) {
+            currentState = {
+                category: categoryId,
+                guruji: null,
+                location: null
+            };
+            
+            showContent('gurujiContainer');
+            loadGurujis(categoryId);
+            updateSteps();
+            updateBreadcrumb();
+            updateBackButtonVisibility();
+        }
+
+        function selectGuruji(gurujiId) {
+            const category = kathaDatabase[currentState.category];
+            const guruji = category.gurujis.find(g => g.id === gurujiId);
+            
+            currentState.guruji = guruji;
+            currentState.location = null;
+            
+            showContent('locationContainer');
+            loadLocations(guruji);
+            updateSteps();
+            updateBreadcrumb();
+            updateBackButtonVisibility();
+        }
+
+        function selectLocation(locationId) {
+            const location = currentState.guruji.locations.find(l => l.id === locationId);
+            currentState.location = location;
+            
+            showContent('videosContainer');
+            loadVideos(location);
+            updateSteps();
+            updateBreadcrumb();
+            updateBackButtonVisibility();
+        }
+
+        function resetToCategories() {
+            currentState = {
+                category: null,
+                guruji: null,
+                location: null
+            };
+            
+            showContent('categoryContainer');
+            updateSteps();
+            updateBreadcrumb();
+            updateBackButtonVisibility();
+        }
+
+        // Handle browser back button
+        window.addEventListener('popstate', function(event) {
+            const modal = document.getElementById('videoModal');
+            if (modal.style.display === 'flex') {
+                closeVideoModal();
+                event.preventDefault();
+            } else if (currentState.location || currentState.guruji || currentState.category) {
+                goBack();
+                event.preventDefault();
+            }
+        });
+
         // ============================
         // IMPROVED LIVE STREAM PLAYER
         // Android APK Compatible Version
@@ -1939,6 +2219,7 @@
             loadGurujis(categoryId);
             updateSteps();
             updateBreadcrumb();
+            updateBackButtonVisibility();
         }
 
         function loadGurujis(categoryId) {
@@ -1987,6 +2268,7 @@
             loadLocations(guruji);
             updateSteps();
             updateBreadcrumb();
+            updateBackButtonVisibility();
         }
 
         function loadLocations(guruji) {
@@ -2023,6 +2305,7 @@
             loadVideos(location);
             updateSteps();
             updateBreadcrumb();
+            updateBackButtonVisibility();
         }
 
         function loadVideos(location) {
@@ -2068,6 +2351,7 @@
             showContent('categoryContainer');
             updateSteps();
             updateBreadcrumb();
+            updateBackButtonVisibility();
         }
 
         // Programs Data
@@ -2193,6 +2477,9 @@
             // Update navigation steps
             updateSteps();
             
+            // Update back button visibility
+            updateBackButtonVisibility();
+            
             // Start live stream
             startLiveStream();
             
@@ -2238,6 +2525,22 @@
                     }
                 }, 300);
             });
+            
+            // Add keyboard navigation support
+            document.addEventListener('keydown', function(event) {
+                // Alt + H for Home
+                if (event.altKey && event.key === 'h') {
+                    homeBtn.click();
+                }
+                // Alt + B for Back
+                if (event.altKey && event.key === 'b') {
+                    backBtn.click();
+                }
+                // Escape for back when in katha navigation
+                if (event.key === 'Escape' && (currentState.category || currentState.guruji || currentState.location)) {
+                    goBack();
+                }
+            });
         });
 
         // Android Back Button Support
@@ -2247,7 +2550,7 @@
                 closeVideoModal();
                 event.preventDefault();
             } else if (currentState.location || currentState.guruji || currentState.category) {
-                resetToCategories();
+                goBack();
                 event.preventDefault();
             }
         });
@@ -2262,7 +2565,7 @@
                     closeVideoModal();
                     history.pushState({page: 'main'}, '', '');
                 } else if (currentState.location || currentState.guruji || currentState.category) {
-                    resetToCategories();
+                    goBack();
                     history.pushState({page: 'main'}, '', '');
                 }
             };
@@ -2288,6 +2591,3 @@
     </script>
 </body>
 </html>
-
-
-
