@@ -17,6 +17,9 @@
             --navy-blue: #1A237E;
             --royal-purple: #4A148C;
             --saffron: #FF5722;
+            --tricolor-saffron: #FF9933;
+            --tricolor-white: #FFFFFF;
+            --tricolor-green: #138808;
             --pure-white: #FFFFFF;
             --off-white: #F8F9FA;
             --shadow-dark: rgba(0, 0, 0, 0.7);
@@ -72,6 +75,28 @@
         .floating-oms:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 10s; }
         .floating-oms:nth-child(4) { top: 30%; right: 20%; animation-delay: 15s; }
 
+        /* Republic Day Special Floating Flags */
+        .floating-flag {
+            position: fixed;
+            z-index: -1;
+            font-size: 5rem;
+            animation: floatFlag 25s infinite linear;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .floating-flag:nth-child(5) { top: 15%; right: 8%; animation-delay: 2s; color: var(--tricolor-saffron); }
+        .floating-flag:nth-child(6) { top: 70%; left: 8%; animation-delay: 8s; color: var(--tricolor-white); }
+        .floating-flag:nth-child(7) { bottom: 30%; right: 15%; animation-delay: 14s; color: var(--tricolor-green); }
+
+        @keyframes floatFlag {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.1; }
+            25% { transform: translateY(-50px) rotate(90deg) scale(1.2); opacity: 0.2; }
+            50% { transform: translateY(0) rotate(180deg) scale(1); opacity: 0.15; }
+            75% { transform: translateY(50px) rotate(270deg) scale(1.1); opacity: 0.2; }
+            100% { transform: translateY(0) rotate(360deg) scale(1); opacity: 0.1; }
+        }
+
         /* Luxury Header */
         .luxury-header {
             background: linear-gradient(135deg, 
@@ -125,6 +150,50 @@
             margin-bottom: 0.5rem;
         }
 
+        .republic-day-badge {
+            background: linear-gradient(90deg, 
+                var(--tricolor-saffron),
+                var(--tricolor-white),
+                var(--tricolor-green));
+            color: var(--deep-blue);
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            animation: pulseTricolor 2s infinite;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .republic-day-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(255, 255, 255, 0.2) 100%);
+            z-index: -1;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes pulseTricolor {
+            0% { transform: scale(1); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
         .main-title {
             font-family: 'Marcellus', serif;
             font-size: 4.5rem;
@@ -155,6 +224,61 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
+        /* Republic Day Special Section */
+        .republic-day-section {
+            background: linear-gradient(135deg, 
+                rgba(255, 153, 51, 0.1) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(19, 136, 8, 0.1) 100%);
+            border: 3px solid;
+            border-image: linear-gradient(90deg, 
+                var(--tricolor-saffron),
+                var(--tricolor-white),
+                var(--tricolor-green)) 1;
+            animation: borderPulse 3s infinite;
+        }
+
+        @keyframes borderPulse {
+            0% { border-image-slice: 1; }
+            50% { border-image-slice: 1.5; }
+            100% { border-image-slice: 1; }
+        }
+
+        .tricolor-text {
+            background: linear-gradient(90deg, 
+                var(--tricolor-saffron),
+                var(--tricolor-white),
+                var(--tricolor-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        .tricolor-strip {
+            height: 5px;
+            width: 100%;
+            background: linear-gradient(90deg, 
+                var(--tricolor-saffron) 33%,
+                var(--tricolor-white) 33% 66%,
+                var(--tricolor-green) 66%);
+            border-radius: 3px;
+            margin: 1rem 0;
+        }
+
+        .tricolor-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 153, 51, 0.05) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(19, 136, 8, 0.05) 100%);
+            border-left: 5px solid;
+            border-image: linear-gradient(to bottom, 
+                var(--tricolor-saffron),
+                var(--tricolor-white),
+                var(--tricolor-green)) 1;
+        }
+
+        /* Rest of the CSS remains the same... */
         /* Main Container */
         .luxury-container {
             max-width: 1200px;
@@ -953,6 +1077,11 @@
             .android-nav-button i {
                 font-size: 1.4rem;
             }
+            
+            .republic-day-badge {
+                font-size: 0.9rem;
+                padding: 0.4rem 1.5rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -995,6 +1124,11 @@
             .android-nav-button i {
                 font-size: 1.2rem;
             }
+            
+            .republic-day-badge {
+                font-size: 0.8rem;
+                padding: 0.3rem 1rem;
+            }
         }
 
         /* Prevent overlap with footer on very small screens */
@@ -1012,6 +1146,11 @@
     <div class="floating-oms">ॐ</div>
     <div class="floating-oms">ॐ</div>
     <div class="floating-oms">ॐ</div>
+    
+    <!-- Republic Day Flags -->
+    <div class="floating-flag">🇮🇳</div>
+    <div class="floating-flag">🇮🇳</div>
+    <div class="floating-flag">🇮🇳</div>
 
     <!-- Header -->
     <header class="luxury-header">
@@ -1020,6 +1159,9 @@
             <div class="logo-container">
                 <img src="https://i.ibb.co/99Rgxtc3/divyalok-tv-logo.jpg" alt="दिव्यलोक टीवी" class="tv-logo">
                 <h1 class="main-title">दिव्यलोक टीवी</h1>
+                <div class="republic-day-badge">
+                    <i class="fas fa-flag"></i> 26 जनवरी - गणतंत्र दिवस की हार्दिक शुभकामनाएं <i class="fas fa-flag"></i>
+                </div>
             </div>
             <p class="tagline">संस्कृति, संस्कार और सत्य का संगम</p>
         </div>
@@ -1027,6 +1169,54 @@
 
     <!-- Main Content -->
     <main class="luxury-container">
+        <!-- Republic Day Special Message -->
+        <section class="luxury-card republic-day-section">
+            <div class="section-header">
+                <div class="section-icon" style="background: linear-gradient(135deg, var(--tricolor-saffron), var(--tricolor-green));">
+                    <i class="fas fa-flag"></i>
+                </div>
+                <h2 class="section-title tricolor-text">गणतंत्र दिवस विशेष</h2>
+            </div>
+            
+            <div style="text-align: center; padding: 1.5rem;">
+                <div class="tricolor-strip"></div>
+                
+                <div style="color: var(--light-gold); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                    <p>भारत के 75वें गणतंत्र दिवस पर दिव्यलोक टीवी की तरफ से सभी दर्शकों को हार्दिक शुभकामनाएं!</p>
+                    <p style="margin-top: 1rem; font-size: 1rem; color: var(--secondary-gold);">
+                        <i class="fas fa-quote-left"></i> 
+                        सत्यमेव जयते - सत्य की ही विजय होती है
+                        <i class="fas fa-quote-right"></i>
+                    </p>
+                </div>
+                
+                <div class="tricolor-card" style="padding: 1.2rem; border-radius: 10px; margin-top: 1.5rem;">
+                    <h3 style="color: var(--tricolor-saffron); margin-bottom: 0.8rem; font-size: 1rem;">
+                        <i class="fas fa-calendar-star"></i> आज का विशेष कार्यक्रम
+                    </h3>
+                    <p style="color: var(--light-gold); font-size: 0.95rem; line-height: 1.5;">
+                        <strong style="color: var(--primary-gold);">गणतंत्र दिवस विशेष:</strong> देशभक्ति भजन, राष्ट्रीय एकता पर प्रवचन एवं विशेष आरती
+                        <br>
+                        <span style="color: var(--secondary-gold); font-size: 0.85rem;">
+                            <i class="far fa-clock"></i> सुबह 9:00 से रात 9:00 तक
+                        </span>
+                    </p>
+                </div>
+                
+                <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                    <div style="background: var(--tricolor-saffron); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold;">
+                        जय हिन्द
+                    </div>
+                    <div style="background: var(--tricolor-white); color: var(--deep-blue); padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold;">
+                        वन्दे मातरम्
+                    </div>
+                    <div style="background: var(--tricolor-green); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold;">
+                        भारत माता की जय
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Live Stream Player -->
         <section class="luxury-card">
             <div class="section-header">
@@ -1400,7 +1590,7 @@
             updateBackButtonVisibility();
             
             // Scroll to katha section
-            document.querySelector('.luxury-card:nth-child(2)').scrollIntoView({ 
+            document.querySelector('.luxury-card:nth-child(3)').scrollIntoView({ 
                 behavior: 'smooth',
                 block: 'start'
             });
@@ -2195,7 +2385,7 @@
             updateBackButtonVisibility();
         }
 
-        // Programs Data
+        // Programs Data - Updated to remove 27th January
         const programs = [
             { 
                 title: 'श्रीमद् भागवत कथा', 
@@ -2206,12 +2396,12 @@
                 desc: '7 दिवसीय भागवत कथा महोत्सव - भगवान कृष्ण की लीलाएं'
             },
             { 
-                title: 'श्रीमद् भागवत कथा', 
+                title: 'श्रीमद् भागवत कथा (गणतंत्र दिवस विशेष)', 
                 date: '20-26 जनवरी 2026', 
                 time: 'दोपहर 1:00-5:00 बजे तक', 
                 location: 'पीपलवानी (म.प्र.)', 
                 vyas: 'सुश्री राधिका किशोरी जी',
-                desc: '7 दिवसीय भागवत कथा महोत्सव - गणतंत्र दिवस विशेष'
+                desc: '7 दिवसीय भागवत कथा महोत्सव - गणतंत्र दिवस (26 जनवरी) विशेष कार्यक्रम'
             },
             { 
                 title: 'शिव महापुराण कथा', 
@@ -2220,6 +2410,14 @@
                 location: 'चन्दला, जिला-छतरपुर (म.प्र)', 
                 vyas: 'जगद्गुरु शङ्कराचार्य स्वामी ओंकारानन्द सरस्वती जी महाराज',
                 desc: '9 दिवसीय शिव महापुराणा महोत्सव -सीधा प्रसारण: दिव्यलोक टीवी पर'
+            },
+            { 
+                title: 'देवी भागवत कथा', 
+                date: '28 जनवरी - 3 फरवरी 2026', 
+                time: 'प्रात: 10:00-दोपहर 2:00 बजे तक', 
+                location: 'इंदौर, मध्य प्रदेश', 
+                vyas: 'स्वामी हृदयानंद गिरी जी महाराज',
+                desc: '7 दिवसीय देवी भागवत कथा - नवदुर्गा की महिमा'
             }
         ];
 
@@ -2308,6 +2506,54 @@
         }
 
         // ============================
+        // REPUBLIC DAY SPECIAL FUNCTIONALITY
+        // ============================
+
+        function setupRepublicDayFeatures() {
+            const today = new Date();
+            const day = today.getDate();
+            const month = today.getMonth(); // January is 0
+            
+            // Show Republic Day features only on 26th January
+            if (day === 26 && month === 0) {
+                console.log('Today is Republic Day! Showing special features.');
+                
+                // Change player status message
+                const playerStatus = document.getElementById('playerStatus');
+                if (playerStatus) {
+                    playerStatus.innerHTML = '🇮🇳 गणतंत्र दिवस विशेष प्रसारण चल रहा है...';
+                }
+                
+                // Schedule to remove Republic Day features after today
+                setTimeout(() => {
+                    const republicDayBadge = document.querySelector('.republic-day-badge');
+                    const republicDaySection = document.querySelector('.republic-day-section');
+                    const floatingFlags = document.querySelectorAll('.floating-flag');
+                    
+                    if (republicDayBadge) republicDayBadge.style.display = 'none';
+                    if (republicDaySection) republicDaySection.style.display = 'none';
+                    floatingFlags.forEach(flag => flag.style.display = 'none');
+                    
+                    // Reset player status
+                    if (playerStatus && playerStatus.innerHTML.includes('गणतंत्र दिवस')) {
+                        playerStatus.innerHTML = '📡 लाइव प्रसारण चल रहा है...';
+                    }
+                    
+                    console.log('Republic Day features removed.');
+                }, 24 * 60 * 60 * 1000); // After 24 hours
+            } else {
+                // Hide Republic Day features if not 26th January
+                const republicDayBadge = document.querySelector('.republic-day-badge');
+                const republicDaySection = document.querySelector('.republic-day-section');
+                const floatingFlags = document.querySelectorAll('.floating-flag');
+                
+                if (republicDayBadge) republicDayBadge.style.display = 'none';
+                if (republicDaySection) republicDaySection.style.display = 'none';
+                floatingFlags.forEach(flag => flag.style.display = 'none');
+            }
+        }
+
+        // ============================
         // INITIALIZATION
         // ============================
 
@@ -2322,6 +2568,9 @@
             
             // Start live stream
             startLiveStream();
+            
+            // Setup Republic Day features
+            setupRepublicDayFeatures();
             
             // Close modal when clicking outside
             window.addEventListener('click', function(event) {
@@ -2415,4 +2664,3 @@
     </script>
 </body>
 </html>
-
